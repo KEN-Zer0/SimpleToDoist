@@ -86,6 +86,7 @@
             // tasksScrollBar
             // 
             this.tasksScrollBar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tasksScrollBar.Enabled = false;
             this.tasksScrollBar.LargeChange = 5;
             this.tasksScrollBar.Location = new System.Drawing.Point(360, 97);
             this.tasksScrollBar.Minimum = 1;

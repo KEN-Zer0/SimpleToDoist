@@ -30,7 +30,7 @@ namespace SimpleToDoist
             string taskDefinitionText =
                 taskCounter.ToString() + "# " + // task num
                 taskInputBox.Text;              // task text
-            
+
             return taskDefinitionText;
         }
 
@@ -86,7 +86,8 @@ namespace SimpleToDoist
 
         private void checkTasksAmount()
         {
-            if (taskCounter < 0) {
+            if (taskCounter < 0)
+            {
                 Console.WriteLine("Error in tasks counting");
                 this.Close();
 
@@ -101,13 +102,15 @@ namespace SimpleToDoist
             else if (taskCounter > 6)
             {
                 tasksScrollBar.Visible = true;
-
+                tasksScrollBar.Enabled = true;
             }
             else if (taskCounter <= 6)
             {
                 tasksScrollBar.Visible = false;
+                tasksScrollBar.Enabled = false;
                 tasksScrollBar.Value = 1;
             }
+
         }
 
         private void taskAddButton_Click(object sender, EventArgs e)
@@ -118,8 +121,8 @@ namespace SimpleToDoist
 
         private void tasksScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
-            tasksLayoutPanel.AutoScrollPosition = new Point(0, tasksScrollBar.Value);
-            checkBoxLayoutPanel.AutoScrollPosition = new Point(0, tasksScrollBar.Value);
+            tasksLayoutPanel.VerticalScroll.Value = tasksScrollBar.Value;
+            checkBoxLayoutPanel.VerticalScroll.Value = tasksScrollBar.Value;
         }
     }
 }
