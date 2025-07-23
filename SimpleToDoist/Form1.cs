@@ -48,9 +48,9 @@ namespace SimpleToDoist
             newLabel.Text = getTaskDefinition();
             newLabel.AutoEllipsis = true;
             newLabel.AutoSize = false;
-            newLabel.TextAlign = ContentAlignment.MiddleCenter;
+            newLabel.TextAlign = ContentAlignment.MiddleLeft;
             newLabel.Margin = new Padding(0, 5, 0, 5);
-            newLabel.Size = new Size(250, 15);
+            newLabel.Size = new Size(270, 15);
 
             return newLabel;
         }
@@ -84,9 +84,42 @@ namespace SimpleToDoist
             taskCounter++;
         }
 
+        private void checkTasksAmount()
+        {
+            if (taskCounter < 0) {
+                Console.WriteLine("Error in tasks counting");
+                this.Close();
+
+                return;
+            }
+
+            if (taskCounter == 0)
+            {
+                MessageBox.Show("You're done with your tasks!");
+                this.Close();
+            }
+            else if (taskCounter > 6)
+            {
+                tasksScrollBar.Visible = true;
+
+            }
+            else if (taskCounter <= 6)
+            {
+                tasksScrollBar.Visible = false;
+                tasksScrollBar.Value = 1;
+            }
+        }
+
         private void taskAddButton_Click(object sender, EventArgs e)
         {
             createTaskItem();
+            checkTasksAmount();
+        }
+
+        private void tasksScrollBar_Scroll(object sender, ScrollEventArgs e)
+        {
+            tasksLayoutPanel.AutoScrollPosition = new Point(0, tasksScrollBar.Value);
+            checkBoxLayoutPanel.AutoScrollPosition = new Point(0, tasksScrollBar.Value);
         }
     }
 }
