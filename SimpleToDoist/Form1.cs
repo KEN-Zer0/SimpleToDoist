@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace SimpleToDoist
 {
-    public partial class Form1 : Form
+    public partial class simpleToDoist : Form
     {
-        public Form1()
+        public simpleToDoist()
         {
             InitializeComponent();
         }
@@ -28,17 +28,29 @@ namespace SimpleToDoist
             }
 
             string taskDefinitionText =
-                taskCounter.ToString() + "# " +
-                taskInputBox.Text;
+                taskCounter.ToString() + "# " + // task num
+                taskInputBox.Text;              // task text
             
             return taskDefinitionText;
         }
 
         private Label createLabel()
         {
+            string taskDefinitionText = getTaskDefinition();
+            bool isInvalid = taskDefinitionText == null;
+            if (isInvalid)
+            {
+                return null;
+            }
+
             Label newLabel = new Label();
             newLabel.Name = "taskDefinition_" + taskCounter.ToString();
             newLabel.Text = getTaskDefinition();
+            newLabel.AutoEllipsis = true;
+            newLabel.AutoSize = false;
+            newLabel.TextAlign = ContentAlignment.MiddleCenter;
+            newLabel.Margin = new Padding(0, 5, 0, 5);
+            newLabel.Size = new Size(250, 15);
 
             return newLabel;
         }
@@ -47,19 +59,34 @@ namespace SimpleToDoist
         {
             CheckBox newCheckBox = new CheckBox();
             newCheckBox.Name = "taskCheckBox_" + taskCounter.ToString();
+            newCheckBox.Checked = false;
+            newCheckBox.Text = "";
+            newCheckBox.Size = new Size(20, 20);
+            newCheckBox.Margin = new Padding(0, 0, 0, 5);
 
             return newCheckBox;
         }
 
-        private void createTask()
+        private void createTaskItem()
         {
+            Label taskLabel = createLabel();
+            bool isNewLabelInvalid = taskLabel == null;
+            if (isNewLabelInvalid)
+            {
+                return;
+            }
 
+            CheckBox taskCheckbox = createCheckBox();
+
+            tasksLayoutPanel.Controls.Add(taskLabel);
+            checkBoxLayoutPanel.Controls.Add(taskCheckbox);
+
+            taskCounter++;
         }
 
         private void taskAddButton_Click(object sender, EventArgs e)
         {
-
-
+            createTaskItem();
         }
     }
 }

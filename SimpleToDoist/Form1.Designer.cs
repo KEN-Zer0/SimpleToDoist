@@ -1,6 +1,6 @@
 ﻿namespace SimpleToDoist
 {
-    partial class Form1
+    partial class simpleToDoist
     {
         /// <summary>
         /// Wymagana zmienna projektanta.
@@ -37,7 +37,7 @@
             // 
             // taskAddButton
             // 
-            this.taskAddButton.Location = new System.Drawing.Point(194, 209);
+            this.taskAddButton.Location = new System.Drawing.Point(51, 68);
             this.taskAddButton.Margin = new System.Windows.Forms.Padding(0);
             this.taskAddButton.Name = "taskAddButton";
             this.taskAddButton.Size = new System.Drawing.Size(78, 20);
@@ -49,46 +49,52 @@
             // addNewLabel
             // 
             this.addNewLabel.AutoSize = true;
-            this.addNewLabel.Location = new System.Drawing.Point(191, 193);
+            this.addNewLabel.Location = new System.Drawing.Point(48, 52);
             this.addNewLabel.Name = "addNewLabel";
-            this.addNewLabel.Size = new System.Drawing.Size(88, 13);
+            this.addNewLabel.Size = new System.Drawing.Size(210, 13);
             this.addNewLabel.TabIndex = 1;
-            this.addNewLabel.Text = "Create new Task";
+            this.addNewLabel.Text = "Create new Task for your simple ToDo List:";
             this.addNewLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // taskInputBox
             // 
-            this.taskInputBox.Location = new System.Drawing.Point(275, 209);
+            this.taskInputBox.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.taskInputBox.Location = new System.Drawing.Point(132, 68);
             this.taskInputBox.Name = "taskInputBox";
             this.taskInputBox.Size = new System.Drawing.Size(227, 20);
             this.taskInputBox.TabIndex = 2;
             // 
             // tasksLayoutPanel
             // 
-            this.tasksLayoutPanel.Location = new System.Drawing.Point(194, 238);
+            this.tasksLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.tasksLayoutPanel.Location = new System.Drawing.Point(51, 97);
             this.tasksLayoutPanel.Name = "tasksLayoutPanel";
-            this.tasksLayoutPanel.Size = new System.Drawing.Size(256, 100);
+            this.tasksLayoutPanel.Size = new System.Drawing.Size(279, 147);
             this.tasksLayoutPanel.TabIndex = 3;
+            this.tasksLayoutPanel.WrapContents = false;
             // 
             // checkBoxLayoutPanel
             // 
-            this.checkBoxLayoutPanel.Location = new System.Drawing.Point(456, 238);
+            this.checkBoxLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.checkBoxLayoutPanel.Location = new System.Drawing.Point(333, 97);
             this.checkBoxLayoutPanel.Name = "checkBoxLayoutPanel";
-            this.checkBoxLayoutPanel.Size = new System.Drawing.Size(46, 100);
+            this.checkBoxLayoutPanel.Size = new System.Drawing.Size(21, 147);
             this.checkBoxLayoutPanel.TabIndex = 4;
+            this.checkBoxLayoutPanel.WrapContents = false;
             // 
-            // Form1
+            // simpleToDoist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.ClientSize = new System.Drawing.Size(428, 296);
             this.Controls.Add(this.checkBoxLayoutPanel);
             this.Controls.Add(this.tasksLayoutPanel);
             this.Controls.Add(this.taskInputBox);
             this.Controls.Add(this.addNewLabel);
             this.Controls.Add(this.taskAddButton);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "simpleToDoist";
+            this.Text = "simpleToDoist";
             this.ResumeLayout(false);
             this.PerformLayout();
 
