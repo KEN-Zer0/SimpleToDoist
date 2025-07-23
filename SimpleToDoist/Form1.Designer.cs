@@ -111,6 +111,7 @@
             this.Controls.Add(this.taskAddButton);
             this.Name = "simpleToDoist";
             this.Text = "simpleToDoist";
+            this.Load += new System.EventHandler(this.simpleToDoist_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

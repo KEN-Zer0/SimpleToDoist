@@ -17,7 +17,9 @@ namespace SimpleToDoist
             InitializeComponent();
         }
 
-        private int taskCounter = 1;
+        int taskCounter = 1;
+        const int maxTasksCount = 6;
+        
 
         private string getTaskDefinition()
         {
@@ -99,18 +101,44 @@ namespace SimpleToDoist
                 MessageBox.Show("You're done with your tasks!");
                 this.Close();
             }
-            else if (taskCounter > 6)
+            else if (taskCounter > maxTasksCount)
             {
                 tasksScrollBar.Visible = true;
                 tasksScrollBar.Enabled = true;
+                tasksScrollBar.Maximum = taskCounter;
             }
-            else if (taskCounter <= 6)
+            else if (taskCounter <= maxTasksCount)
             {
                 tasksScrollBar.Visible = false;
                 tasksScrollBar.Enabled = false;
+                tasksScrollBar.Maximum = maxTasksCount;
                 tasksScrollBar.Value = 1;
+                
             }
 
+        }
+
+        private void innitCheckBoxPanel()
+        {
+
+        }
+
+        private void innitTasksPanel()
+        {
+
+        }
+
+        private void simpleToDoist_Load(object sender, EventArgs e)
+        {
+            tasksLayoutPanel.HorizontalScroll.Maximum = 0;
+            tasksLayoutPanel.HorizontalScroll.Visible = false;
+            tasksLayoutPanel.VerticalScroll.Visible = false;
+            tasksLayoutPanel.AutoScroll = false;
+
+            checkBoxLayoutPanel.HorizontalScroll.Maximum = 0;
+            checkBoxLayoutPanel.HorizontalScroll.Visible = false;
+            checkBoxLayoutPanel.VerticalScroll.Visible = false;
+            checkBoxLayoutPanel.AutoScroll = false;
         }
 
         private void taskAddButton_Click(object sender, EventArgs e)
@@ -121,8 +149,12 @@ namespace SimpleToDoist
 
         private void tasksScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
-            tasksLayoutPanel.VerticalScroll.Value = tasksScrollBar.Value;
-            checkBoxLayoutPanel.VerticalScroll.Value = tasksScrollBar.Value;
+            Point scrollPoint = new Point(0, tasksScrollBar.Value);
+
+            tasksLayoutPanel.AutoScrollPosition = scrollPoint;
+            checkBoxLayoutPanel.AutoScrollPosition = scrollPoint;
         }
+
+       
     }
 }
