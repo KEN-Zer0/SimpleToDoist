@@ -20,7 +20,7 @@ namespace SimpleToDoist
         // tasks properites
         private int taskCounter = 1;
         const int maxTaskElementsCount = 6;
-        
+
         // shared properites
         //const int toDoElementMargin = 5;
 
@@ -169,9 +169,9 @@ namespace SimpleToDoist
             int checkBoxHeight = checkBoxElementSize + 2 * checkBoxElementMargin;
 
             bool isEqual = labelHeight == checkBoxHeight;
-            if(isEqual) 
+            if (isEqual)
                 return labelHeight;
-            else 
+            else
                 return -1;
         }
 
@@ -205,6 +205,6 @@ namespace SimpleToDoist
             checkBoxLayoutPanel.AutoScrollPosition = scrollPoint;
         }
 
-       
+
     }
 }
