@@ -22,18 +22,21 @@ namespace SimpleToDoist
         const int maxTaskElementsCount = 6;
 
         // shared properites
-        //const int toDoElementMargin = 5;
-
-        // checkBox properties
-        const int checkBoxElementSize = 20;
-        const int checkBoxElementMargin = 4;
+        //const int toDoElementMargin = 5  
 
         // Label properties
         const int labelElementWidth = 270;
         const int labelElementHeight = 16;
+        const int labelPanelWidth = 279;
         const int labelElementMargin = 6;
         const char numberDelimiter = '.';
 
+        // checkBox properties
+        const int checkBoxElementSize = 20;
+        const int checkBoxElementMargin = 4;
+        const int checkBoxPanelWidth = 21;
+
+        // Creating Tasks
         private string getTaskDefinition()
         {
             bool isEmpty = taskInputBox.Text == "";
@@ -72,9 +75,6 @@ namespace SimpleToDoist
             newLabel.Margin = new Padding(0, labelElementMargin, 0, labelElementMargin);
             newLabel.Size = new Size(labelElementWidth, labelElementHeight);
 
-            newLabel.Margin = new Padding(0, toDoElementMargin, 0, toDoElementMargin);
-            newLabel.Size = new Size(labelElementWidth, labelElementHeight);
-
             return newLabel;
         }
 
@@ -88,9 +88,6 @@ namespace SimpleToDoist
 
             newCheckBox.Size = new Size(checkBoxElementSize, checkBoxElementSize);
             newCheckBox.Margin = new Padding(0, checkBoxElementMargin, 0, checkBoxElementMargin);
-
-            newCheckBox.Size = new Size(checkBoxElementSize, checkBoxElementSize);
-            newCheckBox.Margin = new Padding(0, 0, 0, toDoElementMargin);
 
             return newCheckBox;
         }
@@ -113,6 +110,7 @@ namespace SimpleToDoist
             taskCounter++;
         }
 
+        // Tasks counting
         private void checkTasksAmount()
         {
             if (taskCounter < 0)
@@ -144,9 +142,10 @@ namespace SimpleToDoist
 
         }
 
+        // Custom innitializations
         private void innitTasksPanel(int toDo_PannelHeight)
         {
-            tasksLayoutPanel.Size = new Size(279, toDo_PannelHeight);
+            tasksLayoutPanel.Size = new Size(labelPanelWidth, toDo_PannelHeight);
 
             tasksLayoutPanel.HorizontalScroll.Maximum = 0;
             tasksLayoutPanel.HorizontalScroll.Visible = false;
@@ -156,7 +155,7 @@ namespace SimpleToDoist
 
         private void innitCheckBoxPanel(int toDo_PannelHeight)
         {
-            checkBoxLayoutPanel.Size = new Size(21, toDo_PannelHeight);
+            checkBoxLayoutPanel.Size = new Size(checkBoxPanelWidth, toDo_PannelHeight);
 
             checkBoxLayoutPanel.HorizontalScroll.Maximum = 0;
             checkBoxLayoutPanel.HorizontalScroll.Visible = false;
@@ -188,6 +187,7 @@ namespace SimpleToDoist
 
             innitTasksPanel(toDoListHeight);
             innitCheckBoxPanel(toDoListHeight);
+            innitTaskScrollBar(toDoListHeight);
         }
 
 
