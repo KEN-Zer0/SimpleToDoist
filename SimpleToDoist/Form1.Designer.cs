@@ -59,7 +59,8 @@
             // 
             // taskInputBox
             // 
-            this.taskInputBox.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.taskInputBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.taskInputBox.ForeColor = System.Drawing.SystemColors.ControlText;
             this.taskInputBox.Location = new System.Drawing.Point(132, 68);
             this.taskInputBox.Name = "taskInputBox";
             this.taskInputBox.Size = new System.Drawing.Size(227, 20);
