@@ -72,6 +72,9 @@ namespace SimpleToDoist
             newLabel.Margin = new Padding(0, labelElementMargin, 0, labelElementMargin);
             newLabel.Size = new Size(labelElementWidth, labelElementHeight);
 
+            newLabel.Margin = new Padding(0, toDoElementMargin, 0, toDoElementMargin);
+            newLabel.Size = new Size(labelElementWidth, labelElementHeight);
+
             return newLabel;
         }
 
@@ -85,6 +88,9 @@ namespace SimpleToDoist
 
             newCheckBox.Size = new Size(checkBoxElementSize, checkBoxElementSize);
             newCheckBox.Margin = new Padding(0, checkBoxElementMargin, 0, checkBoxElementMargin);
+
+            newCheckBox.Size = new Size(checkBoxElementSize, checkBoxElementSize);
+            newCheckBox.Margin = new Padding(0, 0, 0, toDoElementMargin);
 
             return newCheckBox;
         }
