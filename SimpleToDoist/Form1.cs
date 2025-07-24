@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static SimpleToDoist.AppConstants;
 
 namespace SimpleToDoist
 {
@@ -17,24 +18,7 @@ namespace SimpleToDoist
             InitializeComponent();
         }
 
-        // tasks properites
         private int taskCounter = 1;
-        const int maxTaskElementsCount = 6;
-
-        // shared properites
-        //const int toDoElementMargin = 5  
-
-        // Label properties
-        const int labelElementWidth = 270;
-        const int labelElementHeight = 16;
-        const int labelPanelWidth = 279;
-        const int labelElementMargin = 6;
-        const char numberDelimiter = '.';
-
-        // checkBox properties
-        const int checkBoxElementSize = 20;
-        const int checkBoxElementMargin = 4;
-        const int checkBoxPanelWidth = 21;
 
         // Creating Tasks
         private string getTaskDefinition()
@@ -74,7 +58,7 @@ namespace SimpleToDoist
 
             newLabel.Margin = new Padding(0, labelElementMargin, 0, labelElementMargin);
             newLabel.Size = new Size(labelElementWidth, labelElementHeight);
-
+            
             return newLabel;
         }
 
