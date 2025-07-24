@@ -69,9 +69,9 @@
             // tasksLayoutPanel
             // 
             this.tasksLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.tasksLayoutPanel.Location = new System.Drawing.Point(78, 97);
+            this.tasksLayoutPanel.Location = new System.Drawing.Point(71, 97);
             this.tasksLayoutPanel.Name = "tasksLayoutPanel";
-            this.tasksLayoutPanel.Size = new System.Drawing.Size(279, 160);
+            this.tasksLayoutPanel.Size = new System.Drawing.Size(286, 160);
             this.tasksLayoutPanel.TabIndex = 3;
             this.tasksLayoutPanel.WrapContents = false;
             // 
@@ -103,7 +103,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.ClientSize = new System.Drawing.Size(428, 296);
+            this.ClientSize = new System.Drawing.Size(428, 323);
             this.Controls.Add(this.tasksScrollBar);
             this.Controls.Add(this.checkBoxLayoutPanel);
             this.Controls.Add(this.tasksLayoutPanel);
