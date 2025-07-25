@@ -11,16 +11,18 @@ namespace SimpleToDoist.TasksCreation
     {
         private int _taskIndex;
         private string _taskName;
-        public string taskTitle;
+        private string _taskTitle;
         public string taskDescription;
-        public bool taskCompletion;
+        private bool _taskCompletion;
      
+        // Properites Creation
         public int TaskIndex
         {
             get { return _taskIndex; }
             set 
             {
-                if (value < 0) 
+                bool isNegative = value < 0;
+                if (isNegative) 
                 { 
                     MessageBox.Show($"Error index {_taskIndex} is negative");
                 }
@@ -43,14 +45,55 @@ namespace SimpleToDoist.TasksCreation
             }
         }
 
-        public TaskCreator(int taskId, string newTaskName, 
-            string newTaskTitle, string newTaskDescription)
+        public string TaskTitle
+        {
+            get { return _taskTitle; }
+            set
+            {
+                bool isEmpty = string.IsNullOrWhiteSpace(value);
+                if (isEmpty)
+                {
+                    MessageBox.Show($"Error Task Name {_taskTitle} is empty");
+                }
+                _taskTitle = value;
+            }
+        }
+
+        public bool TaskCompletion 
+        { 
+            get { return _taskCompletion; }
+            set { _taskCompletion = value; }
+        }
+
+        public bool ChangeTaskCompletionStatus()
+        {
+            TaskCompletion = !TaskCompletion;
+            return TaskCompletion;
+        }
+
+        // Setting TaskName
+        public string CreateTaskName(string taskName)
+        {
+            bool isEmpty = string.IsNullOrWhiteSpace(taskName);
+            if (isEmpty)
+            {
+                MessageBox.Show($"Error Task Name {taskName} is empty");
+            }
+
+            TaskName = taskName + TaskIndex.ToString();
+
+            return TaskName;
+        }
+
+        public TaskCreator(int taskId, string newTaskTitle,
+            string newTaskName = "task_",
+            string newTaskDescription = "")
         {
             TaskIndex = taskId;
-            _taskName = newTaskName + taskId.ToString();
-            taskTitle = newTaskTitle;
+            TaskName = CreateTaskName(newTaskName);
+            TaskTitle = newTaskTitle;
             taskDescription = newTaskDescription;
-            taskCompletion = false;
+            TaskCompletion = false;
         }
 
         
