@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SimpleToDoist.AppConstants;
+using SimpleToDoist.TasksCreation;
 
 namespace SimpleToDoist
 {
@@ -17,11 +18,11 @@ namespace SimpleToDoist
         {
             InitializeComponent();
         }
-
+        
         private int taskCounter = 1;
 
         // Creating Tasks
-        private string getTaskDefinition()
+        private string GetTaskDefinition()
         {
             bool isEmpty = taskInputBox.Text == "";
             if (isEmpty)
@@ -37,9 +38,10 @@ namespace SimpleToDoist
             return taskDefinitionText;
         }
 
-        private Label createLabel()
+        // Creating Form Elements
+        private Label CreateLabel()
         {
-            string taskDefinitionText = getTaskDefinition();
+            string taskDefinitionText = GetTaskDefinition();
 
             bool isInvalid = taskDefinitionText == null;
             if (isInvalid)
@@ -50,7 +52,7 @@ namespace SimpleToDoist
             Label newLabel = new Label();
 
             newLabel.Name = "taskDefinition_" + taskCounter.ToString();
-            newLabel.Text = getTaskDefinition();
+            newLabel.Text = GetTaskDefinition();
 
             newLabel.AutoEllipsis = true;
             newLabel.AutoSize = false;
@@ -62,7 +64,7 @@ namespace SimpleToDoist
             return newLabel;
         }
 
-        private CheckBox createCheckBox()
+        private CheckBox CreateCheckBox()
         {
             CheckBox newCheckBox = new CheckBox();
 
@@ -76,9 +78,9 @@ namespace SimpleToDoist
             return newCheckBox;
         }
 
-        private void createTaskItem()
+        private void CreateTaskItem()
         {
-            Label taskLabel = createLabel();
+            Label taskLabel = CreateLabel();
 
             bool isNewLabelInvalid = taskLabel == null;
             if (isNewLabelInvalid)
@@ -86,7 +88,7 @@ namespace SimpleToDoist
                 return;
             }
 
-            CheckBox taskCheckbox = createCheckBox();
+            CheckBox taskCheckbox = CreateCheckBox();
 
             tasksLayoutPanel.Controls.Add(taskLabel);
             checkBoxLayoutPanel.Controls.Add(taskCheckbox);
@@ -95,7 +97,7 @@ namespace SimpleToDoist
         }
 
         // Tasks counting
-        private void checkTasksAmount()
+        private void CheckTasksAmount()
         {
             if (taskCounter < 0)
             {
@@ -127,7 +129,7 @@ namespace SimpleToDoist
         }
 
         // Custom innitializations
-        private void innitTasksPanel(int toDo_PannelHeight)
+        private void InnitTasksPanel(int toDo_PannelHeight)
         {
             tasksLayoutPanel.Size = new Size(labelPanelWidth, toDo_PannelHeight);
 
@@ -137,7 +139,7 @@ namespace SimpleToDoist
             tasksLayoutPanel.AutoScroll = false;
         }
 
-        private void innitCheckBoxPanel(int toDo_PannelHeight)
+        private void InnitCheckBoxPanel(int toDo_PannelHeight)
         {
             checkBoxLayoutPanel.Size = new Size(checkBoxPanelWidth, toDo_PannelHeight);
 
@@ -147,12 +149,12 @@ namespace SimpleToDoist
             checkBoxLayoutPanel.AutoScroll = false;
         }
 
-        private void innitTaskScrollBar(int toDo_PannelHeight)
+        private void InnitTaskScrollBar(int toDo_PannelHeight)
         {
             tasksScrollBar.Size = new Size(16, toDo_PannelHeight);
         }
 
-        private int checkElementSize()
+        private int CheckElementSize()
         {
             int labelHeight = labelElementHeight + 2 * labelElementMargin;
             int checkBoxHeight = checkBoxElementSize + 2 * checkBoxElementMargin;
@@ -164,27 +166,27 @@ namespace SimpleToDoist
                 return -1;
         }
 
-        private void innitToDoList()
+        private void InnitToDoList()
         {
-            int elementHeight = checkElementSize();
+            int elementHeight = CheckElementSize();
             int toDoListHeight = maxTaskElementsCount * elementHeight;
 
-            innitTasksPanel(toDoListHeight);
-            innitCheckBoxPanel(toDoListHeight);
-            innitTaskScrollBar(toDoListHeight);
+            InnitTasksPanel(toDoListHeight);
+            InnitCheckBoxPanel(toDoListHeight);
+            InnitTaskScrollBar(toDoListHeight);
         }
 
 
         // Main Functions
         private void simpleToDoist_Load(object sender, EventArgs e)
         {
-            innitToDoList();
+            InnitToDoList();
         }
 
         private void taskAddButton_Click(object sender, EventArgs e)
         {
-            createTaskItem();
-            checkTasksAmount();
+            CreateTaskItem();
+            CheckTasksAmount();
         }
 
         private void tasksScrollBar_Scroll(object sender, ScrollEventArgs e)
