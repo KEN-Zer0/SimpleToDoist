@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows.Forms;
+using static SimpleToDoist.AppConstants;
 
 namespace SimpleToDoist.TasksCreation
 {
     public class TaskItem
     {
+        // Properites
         private int _taskIndex;
         private string _taskName;
         private string _taskTitle;
-        public string taskDescription;
+        public string TaskDescription;
         private bool _taskCompletion;
+
+        public Label taskLabel;
+        public CheckBox taskCheckBox;
 
         // Properites Creation
         public int TaskIndex
@@ -86,18 +92,46 @@ namespace SimpleToDoist.TasksCreation
             return TaskName;
         }
 
-        //public TaskItem(int taskId, string newTaskTitle,
-        //    string newTaskName = "taskItem_",
-        //    string newTaskDescription = "")
-        public TaskItem(int taskId,
-            string newTaskName = "taskItem_",
-            string newTaskDescription = "")
+        // Constructor
+        public TaskItem(int taskId)
         {
             TaskIndex = taskId;
             TaskName = CreateTaskName(newTaskName);
-            //TaskTitle = "";
-            taskDescription = newTaskDescription;
             TaskCompletion = false;
         }
+
+        // Creating Task-Form Elements
+        public void CreateTaskLabel()
+        {
+            Label newTaskLabel = new Label();
+
+            // czy moglbym to zrobic w set'cie i czy mialo by to sens?
+            newTaskLabel.Name = TaskName + newTaskLabelName;
+            newTaskLabel.Text = TaskTitle;
+
+            newTaskLabel.AutoEllipsis = true;
+            newTaskLabel.AutoSize = false;
+            newTaskLabel.TextAlign = ContentAlignment.MiddleLeft;
+
+            newTaskLabel.Margin = new Padding(0, labelElementMargin, 0, labelElementMargin);
+            newTaskLabel.Size = new Size(labelElementWidth, labelElementHeight);
+
+            this.taskLabel = newTaskLabel;
+        }
+
+        public void CreateTaskCheckBox()
+        {
+            CheckBox newTaskCheckBox= new CheckBox();
+
+            newTaskCheckBox.Name = TaskName + newTaskCheckBoxName;
+            newTaskCheckBox.Text = null;
+            newTaskCheckBox.Checked = TaskCompletion;
+
+            newTaskCheckBox.Size = new Size(checkBoxElementSize, checkBoxElementSize);
+            newTaskCheckBox.Margin = new Padding(0, checkBoxElementMargin, 0, checkBoxElementMargin);
+
+            this.taskCheckBox = newTaskCheckBox;
+        }
+
     }
 }
