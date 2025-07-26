@@ -22,61 +22,60 @@ namespace SimpleToDoist
         private int taskCounter = 1;
 
         // Creating Tasks
-        private string GetTaskDefinition()
+        private TaskItem CreateTask()
         {
-            bool isEmpty = taskInputBox.Text == "";
-            if (isEmpty)
-            {
-                return null;
-            }
+            TaskItem newTask = new TaskItem(taskCounter);
+            return newTask;
+        }
 
-            string taskDefinitionText =
-                taskCounter.ToString() +    // task index
-                numberDelimiter + " " +     // task delimeter
-                taskInputBox.Text;          // task title
-
-            return taskDefinitionText;
+        private void SetTaskTitle(TaskItem taskToSet)
+        {
+            string taskFetchedTitle = taskInputBox.Text;
+            taskToSet.TaskTitle = taskFetchedTitle;
         }
 
         // Creating Form Elements
-        private Label CreateLabel()
-        {
-            string taskDefinitionText = GetTaskDefinition();
+        //private Label CreateTaskLabel(TaskItem 
 
-            bool isInvalid = taskDefinitionText == null;
-            if (isInvalid)
-            {
-                return null;
-            }
+        //// Creating Form Elements
+        //private Label CreateLabel()
+        //{
+        //    string taskDefinitionText = GetTaskDefinition();
 
-            Label newLabel = new Label();
+        //    bool isInvalid = taskDefinitionText == null;
+        //    if (isInvalid)
+        //    {
+        //        return null;
+        //    }
 
-            newLabel.Name = "taskDefinition_" + taskCounter.ToString();
-            newLabel.Text = GetTaskDefinition();
+        //    Label newLabel = new Label();
 
-            newLabel.AutoEllipsis = true;
-            newLabel.AutoSize = false;
-            newLabel.TextAlign = ContentAlignment.MiddleLeft;
+        //    newLabel.Name = "taskDefinition_" + taskCounter.ToString();
+        //    newLabel.Text = GetTaskDefinition();
 
-            newLabel.Margin = new Padding(0, labelElementMargin, 0, labelElementMargin);
-            newLabel.Size = new Size(labelElementWidth, labelElementHeight);
-            
-            return newLabel;
-        }
+        //    newLabel.AutoEllipsis = true;
+        //    newLabel.AutoSize = false;
+        //    newLabel.TextAlign = ContentAlignment.MiddleLeft;
 
-        private CheckBox CreateCheckBox()
-        {
-            CheckBox newCheckBox = new CheckBox();
+        //    newLabel.Margin = new Padding(0, labelElementMargin, 0, labelElementMargin);
+        //    newLabel.Size = new Size(labelElementWidth, labelElementHeight);
 
-            newCheckBox.Name = "taskCheckBox_" + taskCounter.ToString();
-            newCheckBox.Checked = false;
-            newCheckBox.Text = "";
+        //    return newLabel;
+        //}
 
-            newCheckBox.Size = new Size(checkBoxElementSize, checkBoxElementSize);
-            newCheckBox.Margin = new Padding(0, checkBoxElementMargin, 0, checkBoxElementMargin);
+        //private CheckBox CreateCheckBox()
+        //{
+        //    CheckBox newCheckBox = new CheckBox();
 
-            return newCheckBox;
-        }
+        //    newCheckBox.Name = "taskCheckBox_" + taskCounter.ToString();
+        //    newCheckBox.Checked = false;
+        //    newCheckBox.Text = "";
+
+        //    newCheckBox.Size = new Size(checkBoxElementSize, checkBoxElementSize);
+        //    newCheckBox.Margin = new Padding(0, checkBoxElementMargin, 0, checkBoxElementMargin);
+
+        //    return newCheckBox;
+        //}
 
         private void CreateTaskItem()
         {
