@@ -19,13 +19,52 @@ namespace SimpleToDoist
             InitializeComponent();
         }
         
-        private int taskCounter = 0;
+        private int _taskCounter = 0;
+        private bool wasCalled = false;
+        private int TaskCounter
+        {
+            get
+            {
+                if (TaskCounter < 0)
+                {
+                    Console.WriteLine("Error in tasks counting");
+                    this.Close();
+
+                    return _taskCounter;
+                }
+
+                if (TaskCounter == 0 && wasCalled)
+                {
+                    MessageBox.Show("You're done with your tasks!");
+                    this.Close();
+                }
+                else if (TaskCounter > maxTaskItemElementsCount)
+                {
+                    tasksScrollBar.Visible = true;
+                    tasksScrollBar.Enabled = true;
+                    tasksScrollBar.Maximum = TaskCounter;
+                }
+                else if (TaskCounter <= maxTaskItemElementsCount)
+                {
+                    tasksScrollBar.Visible = false;
+                    tasksScrollBar.Enabled = false;
+                    tasksScrollBar.Maximum = maxTaskItemElementsCount;
+                    tasksScrollBar.Value = 1;
+                }
+                if (_taskCounter > 0) wasCalled = true;
+
+                return _taskCounter; 
+            }
+
+            set { _taskCounter = value; }
+        }
+
         private List<TaskItem> taskItemsList = new List<TaskItem>();
 
         // Creating Tasks
         private TaskItem CreateTask()
         {
-            TaskItem newTask = new TaskItem(taskCounter);
+            TaskItem newTask = new TaskItem(TaskCounter);
             SetTaskTitle(newTask);
             return newTask;
         }
@@ -52,33 +91,23 @@ namespace SimpleToDoist
         private void TaskCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox clikedCheckBox = sender as CheckBox;
-            if(clikedCheckBox != null && clikedCheckBox.Checked)
+            if (clikedCheckBox == null) return;
+
+            if (clikedCheckBox.Checked)
             {
                 TaskItem connectedTask = clikedCheckBox.Tag as TaskItem;
                 if (connectedTask == null) return;
 
                 int clickedTaskIndex = connectedTask.TaskIndex;
-
                 DropTask(clickedTaskIndex);
 
-                TaskItem lastTask = taskItemsList[taskCounter - 1];
-                
-                lastTask.taskCheckBox.Visible = false;
-                lastTask.taskLabel.Visible = false;
-                
-                checkBoxLayoutPanel.Controls.Remove(lastTask.taskCheckBox);
-                tasksLayoutPanel.Controls.Remove(lastTask.taskLabel);
-
-                taskItemsList.RemoveAt(taskCounter - 1);
-
-                taskCounter--;
-                CheckTasksAmount();
+                MessageBox.Show(TaskCounter.ToString());
             }
         }
 
         private void DropTask(int index)
         {
-            for (int i = index; i < taskCounter - 1; i++)
+            for (int i = index; i < TaskCounter - 1; i++)
             {
                 TaskItem currentTask = taskItemsList[i];
                 TaskItem nextTask = taskItemsList[i + 1];
@@ -88,6 +117,21 @@ namespace SimpleToDoist
                 currentTask.taskCheckBox.Tag = currentTask;
                 currentTask.UpdateTaskLabel();
             }
+            DeleteTaskInstance();
+            TaskCounter--;
+        }
+
+        private void DeleteTaskInstance()
+        {
+            TaskItem lastTask = taskItemsList[TaskCounter - 1];
+
+            lastTask.taskCheckBox.Visible = false;
+            lastTask.taskLabel.Visible = false;
+
+            checkBoxLayoutPanel.Controls.Remove(lastTask.taskCheckBox);
+            tasksLayoutPanel.Controls.Remove(lastTask.taskLabel);
+
+            taskItemsList.RemoveAt(TaskCounter - 1);
         }
 
         // Create task instance on form
@@ -97,44 +141,12 @@ namespace SimpleToDoist
             tasksLayoutPanel.Controls.Add(newTaskItem.taskLabel);
             checkBoxLayoutPanel.Controls.Add(newTaskItem.taskCheckBox);
 
-            taskCounter++;
+            TaskCounter++;
         }
         
 
-        // Tasks counting
-        private void CheckTasksAmount()
-        {
-            if (taskCounter < 0)
-            {
-                Console.WriteLine("Error in tasks counting");
-                this.Close();
-
-                return;
-            }
-
-            if (taskCounter == 0)
-            {
-                MessageBox.Show("You're done with your tasks!");
-                this.Close();
-            }
-            else if (taskCounter > maxTaskItemElementsCount)
-            {
-                tasksScrollBar.Visible = true;
-                tasksScrollBar.Enabled = true;
-                tasksScrollBar.Maximum = taskCounter;
-            }
-            else if (taskCounter <= maxTaskItemElementsCount)
-            {
-                tasksScrollBar.Visible = false;
-                tasksScrollBar.Enabled = false;
-                tasksScrollBar.Maximum = maxTaskItemElementsCount;
-                tasksScrollBar.Value = 1;
-            }
-
-        }
-
         // Custom innitializations
-        private void InnitTasksPanel(int toDo_PannelHeight)
+        private void Innit_TasksPanel(int toDo_PannelHeight)
         {
             tasksLayoutPanel.Size = new Size(labelPanelWidth, toDo_PannelHeight);
 
@@ -144,7 +156,7 @@ namespace SimpleToDoist
             tasksLayoutPanel.AutoScroll = false;
         }
 
-        private void InnitCheckBoxPanel(int toDo_PannelHeight)
+        private void Innit_CheckBoxPanel(int toDo_PannelHeight)
         {
             checkBoxLayoutPanel.Size = new Size(checkBoxPanelWidth, toDo_PannelHeight);
 
@@ -154,7 +166,7 @@ namespace SimpleToDoist
             checkBoxLayoutPanel.AutoScroll = false;
         }
 
-        private void InnitTaskScrollBar(int toDo_PannelHeight)
+        private void Innit_TaskScrollBar(int toDo_PannelHeight)
         {
             tasksScrollBar.Size = new Size(16, toDo_PannelHeight);
         }
@@ -171,25 +183,19 @@ namespace SimpleToDoist
                 return -1;
         }
 
-        private void InnitToDoList()
+        private void Innit_ToDoList()
         {
             int elementHeight = CheckElementSize();
             int toDoListHeight = maxTaskItemElementsCount * elementHeight;
 
-            InnitTasksPanel(toDoListHeight);
-            InnitCheckBoxPanel(toDoListHeight);
-            InnitTaskScrollBar(toDoListHeight);
+            Innit_TasksPanel(toDoListHeight);
+            Innit_CheckBoxPanel(toDoListHeight);
+            Innit_TaskScrollBar(toDoListHeight);
         }
 
-
-        // *******************************
-        // * MAIN FUNCTIONS
-        // *******************************
-        private void simpleToDoist_Load(object sender, EventArgs e)
+        private void Test_Tasks1()
         {
-            InnitToDoList();
-
-            string zdanie = "jan,papaj,III, bedzie,jebal,male,dzieci";
+            string zdanie = "jan,papaj,III";
             string[] slowa = zdanie.Split(',');
 
             foreach (string slowo in slowa)
@@ -200,11 +206,18 @@ namespace SimpleToDoist
             }
         }
 
+        // *******************************
+        // * MAIN FUNCTIONS
+        // *******************************
+        private void simpleToDoist_Load(object sender, EventArgs e)
+        {
+            Innit_ToDoList();
+            Test_Tasks1();
+        }
+
         private void taskAddButton_Click(object sender, EventArgs e)
         {
             taskItemsList.Add(CreateNewTaskElement());
-            CheckTasksAmount();
-
         }
 
         private void tasksScrollBar_Scroll(object sender, ScrollEventArgs e)
