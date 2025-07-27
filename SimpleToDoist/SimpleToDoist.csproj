@@ -53,6 +53,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AppConstants.cs" />
+    <Compile Include="Helpers\FormInnits.cs" />
     <Compile Include="Helpers\TaskCreator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

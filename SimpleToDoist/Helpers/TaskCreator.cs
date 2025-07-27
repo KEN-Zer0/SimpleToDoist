@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 using System.Windows.Forms;
 using static SimpleToDoist.AppConstants;
 
@@ -134,7 +134,7 @@ namespace SimpleToDoist.TasksCreation
 
         public void UpdateTaskLabel()
         {
-            Label currentLabel = this.taskLabel as Label;
+            Label currentLabel = taskLabel;
 
             currentLabel.Tag = this;
             currentLabel.Text = (TaskIndex + 1).ToString() +
@@ -143,7 +143,7 @@ namespace SimpleToDoist.TasksCreation
 
         public void CreateTaskCheckBox()
         {
-            CheckBox newTaskCheckBox= new CheckBox();
+            CheckBox newTaskCheckBox = new CheckBox();
 
             newTaskCheckBox.Name = TaskName + newTaskCheckBoxName;
             newTaskCheckBox.Text = null;
