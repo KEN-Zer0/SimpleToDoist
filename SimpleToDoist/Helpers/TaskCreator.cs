@@ -100,14 +100,26 @@ namespace SimpleToDoist.TasksCreation
             TaskCompletion = false;
         }
 
+        // Task swaping
+        public void CopyFrom(TaskItem other)
+        {
+            this.TaskName = other.TaskName;
+            this.TaskTitle = other.TaskTitle;
+            this.TaskDescription = other.TaskDescription;
+            this.TaskCompletion = other.TaskCompletion;
+
+            this.taskLabel.Text = other.taskLabel.Text;
+            this.taskCheckBox.Checked = other.taskCheckBox.Checked;
+        }
+
         // Creating Task-Form Elements
         public void CreateTaskLabel()
         {
             Label newTaskLabel = new Label();
 
-            // czy moglbym to zrobic w set'cie i czy mialo by to sens?
             newTaskLabel.Name = TaskName + newTaskLabelName;
-            newTaskLabel.Text = TaskTitle;
+            newTaskLabel.Text = (TaskIndex + 1).ToString() +
+                numberDelimiter + TaskTitle;
 
             newTaskLabel.AutoEllipsis = true;
             newTaskLabel.AutoSize = false;
@@ -116,6 +128,7 @@ namespace SimpleToDoist.TasksCreation
             newTaskLabel.Margin = new Padding(0, labelElementMargin, 0, labelElementMargin);
             newTaskLabel.Size = new Size(labelElementWidth, labelElementHeight);
 
+            newTaskLabel.Tag = this;
             this.taskLabel = newTaskLabel;
         }
 
@@ -130,6 +143,7 @@ namespace SimpleToDoist.TasksCreation
             newTaskCheckBox.Size = new Size(checkBoxElementSize, checkBoxElementSize);
             newTaskCheckBox.Margin = new Padding(0, checkBoxElementMargin, 0, checkBoxElementMargin);
 
+            newTaskCheckBox.Tag = this;
             this.taskCheckBox = newTaskCheckBox;
         }
 

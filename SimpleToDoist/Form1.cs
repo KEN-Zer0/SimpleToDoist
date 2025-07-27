@@ -19,7 +19,7 @@ namespace SimpleToDoist
             InitializeComponent();
         }
         
-        private int taskCounter = 1;
+        private int taskCounter = 0;
         private List<TaskItem> taskItemsList = new List<TaskItem>();
 
         // Creating Tasks
@@ -37,15 +37,50 @@ namespace SimpleToDoist
             taskToSet.TaskTitle = taskFetchedTitle;
         }
 
-        private TaskItem CreateTaskItemElemnts()
+        private TaskItem CreateNewTaskElement()
         {
             TaskItem newTaskItem = CreateTask();
             newTaskItem.CreateTaskLabel();
             newTaskItem.CreateTaskCheckBox();
+            newTaskItem.taskCheckBox.CheckedChanged += TaskCheckBox_CheckedChanged;
 
             CreateTaskItem(newTaskItem);
         
             return newTaskItem;
+        }
+
+        private void TaskCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox clikedCheckBox = sender as CheckBox;
+            if(clikedCheckBox != null && clikedCheckBox.Checked)
+            {
+                TaskItem connectedTask = clikedCheckBox.Tag as TaskItem;
+                if (connectedTask == null) return;
+
+                int clickedTaskIndex = connectedTask.TaskIndex;
+                int allTasksCount = taskItemsList.Count();
+
+                for (int i = clickedTaskIndex; i < allTasksCount - 1; i++)
+                {
+                    TaskItem currentTask = taskItemsList[i];
+                    TaskItem nextTask = taskItemsList[i + 1];
+                    
+                    // FIXME:
+                    // Tagi sie pierdola, zamiast na nizszy to ustawia na wyzszy,
+                    // nie wiem jak to ogarnac
+                    // UPDATE:
+                    // trzeba zrobic metode do aktualizowania tekstu w lablach!
+
+                    currentTask.CopyFrom(nextTask);
+                    currentTask.TaskIndex = i;
+                    currentTask.taskCheckBox.Tag = currentTask;
+                    
+                }
+
+                // nie wiem co tu sie odpierdala...
+                //connectedTask.taskCheckBox.Visible = false;
+                //connectedTask.taskLabel.Visible = false;
+            }
         }
 
         // Create task instance on form
@@ -57,6 +92,7 @@ namespace SimpleToDoist
 
             taskCounter++;
         }
+        
 
         // Tasks counting
         private void CheckTasksAmount()
@@ -145,12 +181,20 @@ namespace SimpleToDoist
         private void simpleToDoist_Load(object sender, EventArgs e)
         {
             InnitToDoList();
+
+            for (int i = 0; i<6; i++)
+            {
+                taskInputBox.Text = i.ToString() + "numer tasksa";
+
+                taskItemsList.Add(CreateNewTaskElement());
+            }
         }
 
         private void taskAddButton_Click(object sender, EventArgs e)
         {
-            taskItemsList.Add(CreateTaskItemElemnts());
+            taskItemsList.Add(CreateNewTaskElement());
             CheckTasksAmount();
+
         }
 
         private void tasksScrollBar_Scroll(object sender, ScrollEventArgs e)
@@ -160,7 +204,5 @@ namespace SimpleToDoist
             tasksLayoutPanel.AutoScrollPosition = scrollPoint;
             checkBoxLayoutPanel.AutoScrollPosition = scrollPoint;
         }
-
-
     }
 }
