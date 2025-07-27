@@ -62,7 +62,7 @@ namespace SimpleToDoist.TasksCreation
                     _taskTitle = null;
                     MessageBox.Show($"Error Task Name {_taskTitle} is empty");
                 }
-                _taskTitle = value;
+                _taskTitle = value.Trim();
             }
         }
 
@@ -130,6 +130,15 @@ namespace SimpleToDoist.TasksCreation
 
             newTaskLabel.Tag = this;
             this.taskLabel = newTaskLabel;
+        }
+
+        public void UpdateTaskLabel()
+        {
+            Label currentLabel = this.taskLabel as Label;
+
+            currentLabel.Tag = this;
+            currentLabel.Text = (TaskIndex + 1).ToString() +
+                numberDelimiter + TaskTitle;
         }
 
         public void CreateTaskCheckBox()

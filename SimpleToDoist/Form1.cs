@@ -58,28 +58,35 @@ namespace SimpleToDoist
                 if (connectedTask == null) return;
 
                 int clickedTaskIndex = connectedTask.TaskIndex;
-                int allTasksCount = taskItemsList.Count();
 
-                for (int i = clickedTaskIndex; i < allTasksCount - 1; i++)
-                {
-                    TaskItem currentTask = taskItemsList[i];
-                    TaskItem nextTask = taskItemsList[i + 1];
-                    
-                    // FIXME:
-                    // Tagi sie pierdola, zamiast na nizszy to ustawia na wyzszy,
-                    // nie wiem jak to ogarnac
-                    // UPDATE:
-                    // trzeba zrobic metode do aktualizowania tekstu w lablach!
+                DropTask(clickedTaskIndex);
 
-                    currentTask.CopyFrom(nextTask);
-                    currentTask.TaskIndex = i;
-                    currentTask.taskCheckBox.Tag = currentTask;
-                    
-                }
+                TaskItem lastTask = taskItemsList[taskCounter - 1];
+                
+                lastTask.taskCheckBox.Visible = false;
+                lastTask.taskLabel.Visible = false;
+                
+                checkBoxLayoutPanel.Controls.Remove(lastTask.taskCheckBox);
+                tasksLayoutPanel.Controls.Remove(lastTask.taskLabel);
 
-                // nie wiem co tu sie odpierdala...
-                //connectedTask.taskCheckBox.Visible = false;
-                //connectedTask.taskLabel.Visible = false;
+                taskItemsList.RemoveAt(taskCounter - 1);
+
+                taskCounter--;
+                CheckTasksAmount();
+            }
+        }
+
+        private void DropTask(int index)
+        {
+            for (int i = index; i < taskCounter - 1; i++)
+            {
+                TaskItem currentTask = taskItemsList[i];
+                TaskItem nextTask = taskItemsList[i + 1];
+
+                currentTask.CopyFrom(nextTask);
+                currentTask.TaskIndex = i;
+                currentTask.taskCheckBox.Tag = currentTask;
+                currentTask.UpdateTaskLabel();
             }
         }
 
@@ -182,9 +189,12 @@ namespace SimpleToDoist
         {
             InnitToDoList();
 
-            for (int i = 0; i<6; i++)
+            string zdanie = "jan,papaj,III, bedzie,jebal,male,dzieci";
+            string[] slowa = zdanie.Split(',');
+
+            foreach (string slowo in slowa)
             {
-                taskInputBox.Text = i.ToString() + "numer tasksa";
+                taskInputBox.Text = slowo;
 
                 taskItemsList.Add(CreateNewTaskElement());
             }
