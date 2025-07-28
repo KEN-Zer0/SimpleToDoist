@@ -55,6 +55,9 @@
     <Compile Include="Helpers\AppConstants.cs" />
     <Compile Include="Helpers\FormInnits.cs" />
     <Compile Include="Helpers\TaskCreator.cs" />
+    <Compile Include="MyTests\myTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

@@ -34,6 +34,8 @@
             this.tasksLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBoxLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.tasksScrollBar = new System.Windows.Forms.VScrollBar();
+            this.mainContainerPanel = new System.Windows.Forms.Panel();
+            this.mainContainerPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // taskAddButton
@@ -69,7 +71,7 @@
             // tasksLayoutPanel
             // 
             this.tasksLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.tasksLayoutPanel.Location = new System.Drawing.Point(71, 97);
+            this.tasksLayoutPanel.Location = new System.Drawing.Point(20, 0);
             this.tasksLayoutPanel.Name = "tasksLayoutPanel";
             this.tasksLayoutPanel.Size = new System.Drawing.Size(286, 160);
             this.tasksLayoutPanel.TabIndex = 3;
@@ -78,7 +80,7 @@
             // checkBoxLayoutPanel
             // 
             this.checkBoxLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.checkBoxLayoutPanel.Location = new System.Drawing.Point(51, 97);
+            this.checkBoxLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.checkBoxLayoutPanel.Name = "checkBoxLayoutPanel";
             this.checkBoxLayoutPanel.Size = new System.Drawing.Size(21, 160);
             this.checkBoxLayoutPanel.TabIndex = 4;
@@ -98,21 +100,30 @@
             this.tasksScrollBar.Visible = false;
             this.tasksScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.tasksScrollBar_Scroll);
             // 
+            // mainContainerPanel
+            // 
+            this.mainContainerPanel.Controls.Add(this.checkBoxLayoutPanel);
+            this.mainContainerPanel.Controls.Add(this.tasksLayoutPanel);
+            this.mainContainerPanel.Location = new System.Drawing.Point(51, 97);
+            this.mainContainerPanel.Name = "mainContainerPanel";
+            this.mainContainerPanel.Size = new System.Drawing.Size(306, 160);
+            this.mainContainerPanel.TabIndex = 5;
+            // 
             // simpleToDoist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.ClientSize = new System.Drawing.Size(428, 323);
+            this.Controls.Add(this.mainContainerPanel);
             this.Controls.Add(this.tasksScrollBar);
-            this.Controls.Add(this.checkBoxLayoutPanel);
-            this.Controls.Add(this.tasksLayoutPanel);
             this.Controls.Add(this.taskInputBox);
             this.Controls.Add(this.addNewLabel);
             this.Controls.Add(this.taskAddButton);
             this.Name = "simpleToDoist";
             this.Text = "simpleToDoist";
             this.Load += new System.EventHandler(this.simpleToDoist_Load);
+            this.mainContainerPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -126,6 +137,7 @@
         private System.Windows.Forms.FlowLayoutPanel tasksLayoutPanel;
         private System.Windows.Forms.FlowLayoutPanel checkBoxLayoutPanel;
         private System.Windows.Forms.VScrollBar tasksScrollBar;
+        private System.Windows.Forms.Panel mainContainerPanel;
     }
 }
 

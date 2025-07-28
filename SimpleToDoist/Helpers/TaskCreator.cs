@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using static SimpleToDoist.AppConstants;
 
@@ -31,6 +27,7 @@ namespace SimpleToDoist.TasksCreation
                 if (isNegative)
                 {
                     MessageBox.Show($"Error index {_taskIndex} is negative");
+                    return;
                 }
 
                 _taskIndex = value;
@@ -45,7 +42,8 @@ namespace SimpleToDoist.TasksCreation
                 bool isEmpty = string.IsNullOrWhiteSpace(value);
                 if (isEmpty)
                 {
-                    MessageBox.Show($"Error Task Name {_taskName} is empty");
+                    MessageBox.Show($"Error Task Name is empty");
+                    return;
                 }
                 _taskName = value;
             }
@@ -60,7 +58,8 @@ namespace SimpleToDoist.TasksCreation
                 if (isEmpty)
                 {
                     _taskTitle = null;
-                    MessageBox.Show($"Error Task Name {_taskTitle} is empty");
+                    MessageBox.Show($"Error Task Name is empty");
+                    return;
                 }
                 _taskTitle = value.Trim();
             }
@@ -82,11 +81,23 @@ namespace SimpleToDoist.TasksCreation
         public TaskItem(int taskId)
         {
             TaskIndex = taskId;
-            TaskName = CreateTaskName(newTaskName);
+            TaskName = newTaskName + TaskIndex.ToString();
             TaskCompletion = false;
         }
 
-        // Task swaping
+        public bool ValidateTaskParams()
+        {
+            bool isIndexInvalid = TaskIndex < 0;
+            bool isNameInvalid = TaskName == null;
+            bool isTitleInvalid = TaskTitle == null;
+
+            if(isIndexInvalid || isNameInvalid || isTitleInvalid) 
+                return false;
+
+            return true;
+        }
+
+        // Task moving
         public void CopyFrom(TaskItem other)
         {
             this.TaskName = other.TaskName;
@@ -104,8 +115,7 @@ namespace SimpleToDoist.TasksCreation
             Label newTaskLabel = new Label();
 
             newTaskLabel.Name = TaskName + newTaskLabelName;
-            newTaskLabel.Text = (TaskIndex + 1).ToString() +
-                numberDelimiter + TaskTitle;
+            newTaskLabel.Text = SetTaskLabel_Text();
 
             newTaskLabel.AutoEllipsis = true;
             newTaskLabel.AutoSize = false;
@@ -123,8 +133,13 @@ namespace SimpleToDoist.TasksCreation
             Label currentLabel = taskLabel;
 
             currentLabel.Tag = this;
-            currentLabel.Text = (TaskIndex + 1).ToString() +
-                numberDelimiter + TaskTitle;
+            currentLabel.Text = SetTaskLabel_Text();
+        }
+
+        private string SetTaskLabel_Text()
+        {
+            return (TaskIndex + 1).ToString() +
+                numberDelimiter + ' ' + TaskTitle;
         }
 
         public void CreateTaskCheckBox()

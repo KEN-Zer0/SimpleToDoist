@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SimpleToDoist.AppConstants;
+using SimpleToDoist.MyTests;
 
 namespace SimpleToDoist
 {
@@ -20,8 +21,12 @@ namespace SimpleToDoist
             InitializeComponent();
         }
 
+        // Variables
         private int _taskCounter = 0;
         private bool wasCalled = false;
+        private List<TaskItem> taskItemsList = new List<TaskItem>();
+
+        // Properites
         private int TaskCounter
         {
             get
@@ -30,63 +35,63 @@ namespace SimpleToDoist
                 {
                     Console.WriteLine("Error in tasks arithmetic");
                     this.Close();
-
-                    return _taskCounter;
                 }
-
-                if (_taskCounter == 0 && wasCalled)
-                {
-                    MessageBox.Show("You're done with your tasks!");
-                    this.Close();
-                }
-                else if (_taskCounter > maxTaskItemElementsCount)
-                {
-                    tasksScrollBar.Visible = true;
-                    tasksScrollBar.Enabled = true;
-                    tasksScrollBar.Maximum = _taskCounter;
-                }
-                else if (_taskCounter <= maxTaskItemElementsCount)
-                {
-                    tasksScrollBar.Visible = false;
-                    tasksScrollBar.Enabled = false;
-                    tasksScrollBar.Maximum = maxTaskItemElementsCount;
-                    tasksScrollBar.Value = 1;
-                }
-                if (_taskCounter > 0) wasCalled = true;
 
                 return _taskCounter;
             }
-
             set { _taskCounter = value; }
         }
 
-        private List<TaskItem> taskItemsList = new List<TaskItem>();
-
         // Creating Tasks
-        private TaskItem CreateTask()
-        {
-            TaskItem newTask = new TaskItem(TaskCounter);
-            SetTaskTitle(newTask);
-            return newTask;
-        }
-
-        // czy to jest zgodne z konwencja
-        private void SetTaskTitle(TaskItem taskToSet)
-        {
-            string taskFetchedTitle = taskInputBox.Text;
-            taskToSet.TaskTitle = taskFetchedTitle;
-        }
-
-        private TaskItem CreateNewTaskElement()
+        public TaskItem CreateNewTaskElement()
         {
             TaskItem newTaskItem = CreateTask();
+            if (newTaskItem == null) return null;
+
             newTaskItem.CreateTaskLabel();
             newTaskItem.CreateTaskCheckBox();
+
             newTaskItem.taskCheckBox.CheckedChanged += TaskCheckBox_CheckedChanged;
 
             CreateTaskItem(newTaskItem);
+            CheckTaskAmmount();
 
             return newTaskItem;
+        }
+
+        private TaskItem CreateTask()
+        {
+            TaskItem newTask = new TaskItem(TaskCounter);
+            newTask.TaskTitle = taskInputBox.Text;
+
+            bool isTaskValid = newTask.ValidateTaskParams();
+            if (!isTaskValid) return null;
+
+            return newTask;
+        }
+
+        private void CheckTaskAmmount()
+        {
+            if (TaskCounter == 0 && wasCalled)
+            {
+                MessageBox.Show("You're done with your tasks!");
+                this.Close();
+            }
+            else if (TaskCounter >= maxTaskItemElementsCount)
+            {
+                tasksScrollBar.Visible = true;
+                tasksScrollBar.Enabled = true;
+                tasksScrollBar.Maximum = TaskCounter;
+            }
+            else if (TaskCounter < maxTaskItemElementsCount)
+            {
+                tasksScrollBar.Visible = false;
+                tasksScrollBar.Enabled = false;
+                tasksScrollBar.Maximum = maxTaskItemElementsCount;
+                tasksScrollBar.Value = 1;
+            }
+
+            if (TaskCounter > 0) wasCalled = true;
         }
 
         private void TaskCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -145,17 +150,11 @@ namespace SimpleToDoist
             TaskCounter++;
         }
 
-        private void Test_Tasks1()
+        // Tests
+        private void FormTests()
         {
-            string zdanie = "Testowy,task,utworzony,dla,testow";
-            string[] slowa = zdanie.Split(',');
+            Tests.Test_Tasks1(taskInputBox, taskItemsList, CreateNewTaskElement);
 
-            foreach (string slowo in slowa)
-            {
-                taskInputBox.Text = slowo;
-
-                taskItemsList.Add(CreateNewTaskElement());
-            }
         }
 
         // *****************************
@@ -168,13 +167,13 @@ namespace SimpleToDoist
                 checkBoxLayoutPanel, tasksScrollBar);
             FormInnits.Innit_ToDoList(formProperites);
 
-            Test_Tasks1();
+            //FormTests();
         }
 
         private void taskAddButton_Click(object sender, EventArgs e)
         {
             taskItemsList.Add(CreateNewTaskElement());
-            MessageBox.Show(TaskCounter.ToString());
+            //MessageBox.Show(TaskCounter.ToString());
         }
 
         private void tasksScrollBar_Scroll(object sender, ScrollEventArgs e)
@@ -184,5 +183,7 @@ namespace SimpleToDoist
             tasksLayoutPanel.AutoScrollPosition = scrollPoint;
             checkBoxLayoutPanel.AutoScrollPosition = scrollPoint;
         }
+
+        // mainContainerPanel
     }
 }
