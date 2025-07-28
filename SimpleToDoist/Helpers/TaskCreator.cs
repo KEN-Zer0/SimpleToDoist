@@ -78,20 +78,6 @@ namespace SimpleToDoist.TasksCreation
             return TaskCompletion;
         }
 
-        // Setting TaskName
-        public string CreateTaskName(string taskName)
-        {
-            bool isEmpty = string.IsNullOrWhiteSpace(taskName);
-            if (isEmpty)
-            {
-                MessageBox.Show($"Error Task Name {taskName} is empty");
-            }
-
-            TaskName = taskName + TaskIndex.ToString();
-
-            return TaskName;
-        }
-
         // Constructor
         public TaskItem(int taskId)
         {

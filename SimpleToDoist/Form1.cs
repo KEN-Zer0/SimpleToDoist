@@ -158,9 +158,9 @@ namespace SimpleToDoist
             }
         }
 
-        // *******************************
-        // * MAIN FUNCTIONS
-        // *******************************
+        // *****************************
+        //      * MAIN FUNCTIONS *
+        // *****************************
         private void simpleToDoist_Load(object sender, EventArgs e)
         {
             FormInnits formProperites = new FormInnits();
