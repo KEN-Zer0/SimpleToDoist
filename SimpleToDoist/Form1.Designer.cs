@@ -1,4 +1,7 @@
-﻿namespace SimpleToDoist
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace SimpleToDoist
 {
     partial class simpleToDoist
     {
@@ -31,11 +34,12 @@
             this.taskAddButton = new System.Windows.Forms.Button();
             this.addNewLabel = new System.Windows.Forms.Label();
             this.taskInputBox = new System.Windows.Forms.TextBox();
-            this.tasksLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.checkBoxLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.tasksScrollBar = new System.Windows.Forms.VScrollBar();
             this.mainContainerPanel = new System.Windows.Forms.Panel();
+            this.innerPanel = new System.Windows.Forms.Panel();
+            this.checkBoxLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.tasksLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.mainContainerPanel.SuspendLayout();
+            this.innerPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // taskAddButton
@@ -68,17 +72,32 @@
             this.taskInputBox.Size = new System.Drawing.Size(227, 20);
             this.taskInputBox.TabIndex = 2;
             // 
-            // tasksLayoutPanel
+            // mainContainerPanel
             // 
-            this.tasksLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.tasksLayoutPanel.Location = new System.Drawing.Point(20, 0);
-            this.tasksLayoutPanel.Name = "tasksLayoutPanel";
-            this.tasksLayoutPanel.Size = new System.Drawing.Size(286, 160);
-            this.tasksLayoutPanel.TabIndex = 3;
-            this.tasksLayoutPanel.WrapContents = false;
+            this.mainContainerPanel.Controls.Add(this.innerPanel);
+            this.mainContainerPanel.Location = new System.Drawing.Point(51, 91);
+            this.mainContainerPanel.Name = "mainContainerPanel";
+            this.mainContainerPanel.Size = new System.Drawing.Size(307, 160);
+            this.mainContainerPanel.TabIndex = 3;
+            this.mainContainerPanel.AutoScroll = true;
+
+            // 
+            // innerPanel
+            // 
+            this.innerPanel.AutoSize = true;
+            this.innerPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.innerPanel.Controls.Add(this.tasksLayoutPanel);
+            this.innerPanel.Controls.Add(this.checkBoxLayoutPanel);
+            this.innerPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.innerPanel.Location = new System.Drawing.Point(0, 0);
+            this.innerPanel.Name = "innerPanel";
+            this.innerPanel.Size = new System.Drawing.Size(307, 163);
+            this.innerPanel.TabIndex = 3;
             // 
             // checkBoxLayoutPanel
             // 
+            this.checkBoxLayoutPanel.AutoSize = true;
+            this.checkBoxLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.checkBoxLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.checkBoxLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.checkBoxLayoutPanel.Name = "checkBoxLayoutPanel";
@@ -86,28 +105,16 @@
             this.checkBoxLayoutPanel.TabIndex = 4;
             this.checkBoxLayoutPanel.WrapContents = false;
             // 
-            // tasksScrollBar
+            // tasksLayoutPanel
             // 
-            this.tasksScrollBar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tasksScrollBar.Enabled = false;
-            this.tasksScrollBar.LargeChange = 5;
-            this.tasksScrollBar.Location = new System.Drawing.Point(360, 97);
-            this.tasksScrollBar.Minimum = 1;
-            this.tasksScrollBar.Name = "tasksScrollBar";
-            this.tasksScrollBar.Size = new System.Drawing.Size(16, 160);
-            this.tasksScrollBar.TabIndex = 0;
-            this.tasksScrollBar.Value = 1;
-            this.tasksScrollBar.Visible = false;
-            this.tasksScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.tasksScrollBar_Scroll);
-            // 
-            // mainContainerPanel
-            // 
-            this.mainContainerPanel.Controls.Add(this.checkBoxLayoutPanel);
-            this.mainContainerPanel.Controls.Add(this.tasksLayoutPanel);
-            this.mainContainerPanel.Location = new System.Drawing.Point(51, 97);
-            this.mainContainerPanel.Name = "mainContainerPanel";
-            this.mainContainerPanel.Size = new System.Drawing.Size(306, 160);
-            this.mainContainerPanel.TabIndex = 5;
+            this.tasksLayoutPanel.AutoSize = true;
+            this.tasksLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tasksLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.tasksLayoutPanel.Location = new System.Drawing.Point(22, 0);
+            this.tasksLayoutPanel.Name = "tasksLayoutPanel";
+            this.tasksLayoutPanel.Size = new System.Drawing.Size(286, 160);
+            this.tasksLayoutPanel.TabIndex = 3;
+            this.tasksLayoutPanel.WrapContents = false;
             // 
             // simpleToDoist
             // 
@@ -116,7 +123,6 @@
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.ClientSize = new System.Drawing.Size(428, 323);
             this.Controls.Add(this.mainContainerPanel);
-            this.Controls.Add(this.tasksScrollBar);
             this.Controls.Add(this.taskInputBox);
             this.Controls.Add(this.addNewLabel);
             this.Controls.Add(this.taskAddButton);
@@ -124,6 +130,8 @@
             this.Text = "simpleToDoist";
             this.Load += new System.EventHandler(this.simpleToDoist_Load);
             this.mainContainerPanel.ResumeLayout(false);
+            this.mainContainerPanel.PerformLayout();
+            this.innerPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -134,10 +142,10 @@
         private System.Windows.Forms.Button taskAddButton;
         private System.Windows.Forms.Label addNewLabel;
         private System.Windows.Forms.TextBox taskInputBox;
+        private System.Windows.Forms.Panel mainContainerPanel;
+        private System.Windows.Forms.Panel innerPanel;
         private System.Windows.Forms.FlowLayoutPanel tasksLayoutPanel;
         private System.Windows.Forms.FlowLayoutPanel checkBoxLayoutPanel;
-        private System.Windows.Forms.VScrollBar tasksScrollBar;
-        private System.Windows.Forms.Panel mainContainerPanel;
     }
 }
 

@@ -43,7 +43,7 @@ namespace SimpleToDoist
         }
 
         // Creating Tasks
-        public TaskItem CreateNewTaskElement()
+        private TaskItem CreateNewTaskElement()
         {
             TaskItem newTaskItem = CreateTask();
             if (newTaskItem == null) return null;
@@ -70,6 +70,16 @@ namespace SimpleToDoist
             return newTask;
         }
 
+        // Create task instance on form
+        private void CreateTaskItem(TaskItem newTaskItem)
+        {
+
+            tasksLayoutPanel.Controls.Add(newTaskItem.taskLabel);
+            checkBoxLayoutPanel.Controls.Add(newTaskItem.taskCheckBox);
+
+            TaskCounter++;
+        }
+
         private void CheckTaskAmmount()
         {
             if (TaskCounter == 0 && wasCalled)
@@ -77,20 +87,7 @@ namespace SimpleToDoist
                 MessageBox.Show("You're done with your tasks!");
                 this.Close();
             }
-            else if (TaskCounter >= maxTaskItemElementsCount)
-            {
-                tasksScrollBar.Visible = true;
-                tasksScrollBar.Enabled = true;
-                tasksScrollBar.Maximum = TaskCounter;
-            }
-            else if (TaskCounter < maxTaskItemElementsCount)
-            {
-                tasksScrollBar.Visible = false;
-                tasksScrollBar.Enabled = false;
-                tasksScrollBar.Maximum = maxTaskItemElementsCount;
-                tasksScrollBar.Value = 1;
-            }
-
+            
             if (TaskCounter > 0) wasCalled = true;
         }
 
@@ -118,7 +115,7 @@ namespace SimpleToDoist
                 TaskItem currentTask = taskItemsList[i];
                 TaskItem nextTask = taskItemsList[i + 1];
 
-                currentTask.CopyFrom(nextTask);
+                currentTask.CopyForm(nextTask);
                 currentTask.TaskIndex = i;
                 currentTask.taskCheckBox.Tag = currentTask;
                 currentTask.UpdateTaskLabel();
@@ -129,7 +126,9 @@ namespace SimpleToDoist
 
         private void DeleteTaskInstance()
         {
+            if (taskItemsList == null) return;
             TaskItem lastTask = taskItemsList[TaskCounter - 1];
+            if(!lastTask.ValidateTaskParams()) return;
 
             lastTask.taskCheckBox.Visible = false;
             lastTask.taskLabel.Visible = false;
@@ -137,17 +136,9 @@ namespace SimpleToDoist
             checkBoxLayoutPanel.Controls.Remove(lastTask.taskCheckBox);
             tasksLayoutPanel.Controls.Remove(lastTask.taskLabel);
 
+            lastTask = null;
+
             taskItemsList.RemoveAt(TaskCounter - 1);
-        }
-
-        // Create task instance on form
-        private void CreateTaskItem(TaskItem newTaskItem)
-        {
-
-            tasksLayoutPanel.Controls.Add(newTaskItem.taskLabel);
-            checkBoxLayoutPanel.Controls.Add(newTaskItem.taskCheckBox);
-
-            TaskCounter++;
         }
 
         // Tests
@@ -163,27 +154,22 @@ namespace SimpleToDoist
         private void simpleToDoist_Load(object sender, EventArgs e)
         {
             FormInnits formProperites = new FormInnits();
-            formProperites.ConnetFormObjects(tasksLayoutPanel,
-                checkBoxLayoutPanel, tasksScrollBar);
+            formProperites.LabelPanel = tasksLayoutPanel;
+            formProperites.CheckBoxPanel = checkBoxLayoutPanel;
+
             FormInnits.Innit_ToDoList(formProperites);
 
+            this.Controls.Add(formProperites.MainContainerPanel);
             //FormTests();
         }
 
         private void taskAddButton_Click(object sender, EventArgs e)
         {
-            taskItemsList.Add(CreateNewTaskElement());
+            TaskItem newTaskItem = CreateNewTaskElement();
+            if (newTaskItem == null) return;
+
+            taskItemsList.Add(newTaskItem);
             //MessageBox.Show(TaskCounter.ToString());
         }
-
-        private void tasksScrollBar_Scroll(object sender, ScrollEventArgs e)
-        {
-            Point scrollPoint = new Point(0, tasksScrollBar.Value);
-
-            tasksLayoutPanel.AutoScrollPosition = scrollPoint;
-            checkBoxLayoutPanel.AutoScrollPosition = scrollPoint;
-        }
-
-        // mainContainerPanel
     }
 }

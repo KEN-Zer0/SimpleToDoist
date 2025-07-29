@@ -98,7 +98,7 @@ namespace SimpleToDoist.TasksCreation
         }
 
         // Task moving
-        public void CopyFrom(TaskItem other)
+        public void CopyForm(TaskItem other)
         {
             this.TaskName = other.TaskName;
             this.TaskTitle = other.TaskTitle;
