@@ -39,6 +39,8 @@ namespace SimpleToDoist
             this.tasksLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBoxLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.saveButton = new System.Windows.Forms.Button();
+            this.loadButton = new System.Windows.Forms.Button();
+            this.clearButton = new System.Windows.Forms.Button();
             this.mainContainerPanel.SuspendLayout();
             this.innerPanel.SuspendLayout();
             this.SuspendLayout();
@@ -119,7 +121,7 @@ namespace SimpleToDoist
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(261, 46);
+            this.saveButton.Location = new System.Drawing.Point(51, 254);
             this.saveButton.Margin = new System.Windows.Forms.Padding(0);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(97, 19);
@@ -128,12 +130,36 @@ namespace SimpleToDoist
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // loadButton
+            // 
+            this.loadButton.Location = new System.Drawing.Point(262, 254);
+            this.loadButton.Margin = new System.Windows.Forms.Padding(0);
+            this.loadButton.Name = "loadButton";
+            this.loadButton.Size = new System.Drawing.Size(97, 19);
+            this.loadButton.TabIndex = 5;
+            this.loadButton.Text = "Load Task List";
+            this.loadButton.UseVisualStyleBackColor = true;
+            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
+            // 
+            // clearButton
+            // 
+            this.clearButton.Location = new System.Drawing.Point(148, 254);
+            this.clearButton.Margin = new System.Windows.Forms.Padding(0);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(114, 19);
+            this.clearButton.TabIndex = 6;
+            this.clearButton.Text = "Clear Task List";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
+            // 
             // simpleToDoist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.ClientSize = new System.Drawing.Size(428, 323);
+            this.Controls.Add(this.clearButton);
+            this.Controls.Add(this.loadButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.mainContainerPanel);
             this.Controls.Add(this.taskInputBox);
@@ -161,6 +187,8 @@ namespace SimpleToDoist
         private System.Windows.Forms.FlowLayoutPanel tasksLayoutPanel;
         private System.Windows.Forms.FlowLayoutPanel checkBoxLayoutPanel;
         private Button saveButton;
+        private Button loadButton;
+        private Button clearButton;
     }
 }
 

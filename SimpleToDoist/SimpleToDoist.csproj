@@ -55,6 +55,7 @@
     <Compile Include="Helpers\AppConstants.cs" />
     <Compile Include="Helpers\FormInnits.cs" />
     <Compile Include="Helpers\TaskCreator.cs" />
+    <Compile Include="Helpers\TaskSaving.cs" />
     <Compile Include="MyTests\myTest.cs">
       <SubType>Form</SubType>
     </Compile>

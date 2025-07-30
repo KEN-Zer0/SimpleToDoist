@@ -2,8 +2,11 @@
 {
     public static class AppConstants
     {
+
         // #Tasks
         public const string newTaskName = "taskItem_";
+        public const string tasksSavingDirectory = "Saves";
+        public const string taskSavingPath = "taskData.txt";
         // Task count
         public const int maxTaskItemElementsCount = 6;
 

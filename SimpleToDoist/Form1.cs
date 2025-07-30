@@ -51,8 +51,6 @@ namespace SimpleToDoist
             newTaskItem.CreateTaskLabel();
             newTaskItem.CreateTaskCheckBox();
 
-            newTaskItem.TaskCheckBox.CheckedChanged += TaskCheckBox_CheckedChanged;
-
             CreateTaskItem(newTaskItem);
             if (TaskCounter > 0) wasCalled = true;
 
@@ -76,6 +74,7 @@ namespace SimpleToDoist
 
             tasksLayoutPanel.Controls.Add(newTaskItem.TaskLabel);
             checkBoxLayoutPanel.Controls.Add(newTaskItem.TaskCheckBox);
+            newTaskItem.TaskCheckBox.CheckedChanged += TaskCheckBox_CheckedChanged;
 
             TaskCounter++;
         }
@@ -101,7 +100,7 @@ namespace SimpleToDoist
 
                 int clickedTaskIndex = connectedTask.TaskIndex;
                 DropTask(clickedTaskIndex);
-                CheckTaskAmmount();
+                if(e != null) CheckTaskAmmount();
 
                 Debug.WriteLine(TaskCounter.ToString());
             }
@@ -180,7 +179,29 @@ namespace SimpleToDoist
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            TaskSaving.SaveTasks(taskItemsList);
+        }
 
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            clearButton_Click(null, null);
+
+            taskItemsList = TaskSaving.ReadTasks();
+            if (taskItemsList == null) return;
+
+            foreach (TaskItem taskItem in taskItemsList)
+            {
+                CreateTaskItem(taskItem);
+            }
+        }
+
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            if (taskItemsList == null) return;
+            for (int index = taskItemsList.Count - 1; index >= 0; index--)
+            {
+                DropTask(taskItemsList[index].TaskIndex);
+            }
         }
     }
 }
