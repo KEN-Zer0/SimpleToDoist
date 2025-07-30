@@ -36,8 +36,9 @@ namespace SimpleToDoist
             this.taskInputBox = new System.Windows.Forms.TextBox();
             this.mainContainerPanel = new System.Windows.Forms.Panel();
             this.innerPanel = new System.Windows.Forms.Panel();
-            this.checkBoxLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.tasksLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBoxLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.saveButton = new System.Windows.Forms.Button();
             this.mainContainerPanel.SuspendLayout();
             this.innerPanel.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +49,7 @@ namespace SimpleToDoist
             this.taskAddButton.Margin = new System.Windows.Forms.Padding(0);
             this.taskAddButton.Name = "taskAddButton";
             this.taskAddButton.Size = new System.Drawing.Size(78, 20);
-            this.taskAddButton.TabIndex = 0;
+            this.taskAddButton.TabIndex = 1;
             this.taskAddButton.Text = "Add Task";
             this.taskAddButton.UseVisualStyleBackColor = true;
             this.taskAddButton.Click += new System.EventHandler(this.taskAddButton_Click);
@@ -56,7 +57,7 @@ namespace SimpleToDoist
             // addNewLabel
             // 
             this.addNewLabel.AutoSize = true;
-            this.addNewLabel.Location = new System.Drawing.Point(48, 52);
+            this.addNewLabel.Location = new System.Drawing.Point(48, 49);
             this.addNewLabel.Name = "addNewLabel";
             this.addNewLabel.Size = new System.Drawing.Size(210, 13);
             this.addNewLabel.TabIndex = 1;
@@ -70,17 +71,17 @@ namespace SimpleToDoist
             this.taskInputBox.Location = new System.Drawing.Point(132, 68);
             this.taskInputBox.Name = "taskInputBox";
             this.taskInputBox.Size = new System.Drawing.Size(227, 20);
-            this.taskInputBox.TabIndex = 2;
+            this.taskInputBox.TabIndex = 0;
+            this.taskInputBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.taskInputBox_KeyDown);
             // 
             // mainContainerPanel
             // 
+            this.mainContainerPanel.AutoScroll = true;
             this.mainContainerPanel.Controls.Add(this.innerPanel);
             this.mainContainerPanel.Location = new System.Drawing.Point(51, 91);
             this.mainContainerPanel.Name = "mainContainerPanel";
             this.mainContainerPanel.Size = new System.Drawing.Size(307, 160);
             this.mainContainerPanel.TabIndex = 3;
-            this.mainContainerPanel.AutoScroll = true;
-
             // 
             // innerPanel
             // 
@@ -91,19 +92,8 @@ namespace SimpleToDoist
             this.innerPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.innerPanel.Location = new System.Drawing.Point(0, 0);
             this.innerPanel.Name = "innerPanel";
-            this.innerPanel.Size = new System.Drawing.Size(307, 163);
+            this.innerPanel.Size = new System.Drawing.Size(307, 3);
             this.innerPanel.TabIndex = 3;
-            // 
-            // checkBoxLayoutPanel
-            // 
-            this.checkBoxLayoutPanel.AutoSize = true;
-            this.checkBoxLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.checkBoxLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.checkBoxLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.checkBoxLayoutPanel.Name = "checkBoxLayoutPanel";
-            this.checkBoxLayoutPanel.Size = new System.Drawing.Size(21, 160);
-            this.checkBoxLayoutPanel.TabIndex = 4;
-            this.checkBoxLayoutPanel.WrapContents = false;
             // 
             // tasksLayoutPanel
             // 
@@ -112,9 +102,31 @@ namespace SimpleToDoist
             this.tasksLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.tasksLayoutPanel.Location = new System.Drawing.Point(22, 0);
             this.tasksLayoutPanel.Name = "tasksLayoutPanel";
-            this.tasksLayoutPanel.Size = new System.Drawing.Size(286, 160);
+            this.tasksLayoutPanel.Size = new System.Drawing.Size(0, 0);
             this.tasksLayoutPanel.TabIndex = 3;
             this.tasksLayoutPanel.WrapContents = false;
+            // 
+            // checkBoxLayoutPanel
+            // 
+            this.checkBoxLayoutPanel.AutoSize = true;
+            this.checkBoxLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.checkBoxLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.checkBoxLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.checkBoxLayoutPanel.Name = "checkBoxLayoutPanel";
+            this.checkBoxLayoutPanel.Size = new System.Drawing.Size(0, 0);
+            this.checkBoxLayoutPanel.TabIndex = 4;
+            this.checkBoxLayoutPanel.WrapContents = false;
+            // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(261, 46);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(0);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(97, 19);
+            this.saveButton.TabIndex = 4;
+            this.saveButton.Text = "Save Task List";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // simpleToDoist
             // 
@@ -122,6 +134,7 @@ namespace SimpleToDoist
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.ClientSize = new System.Drawing.Size(428, 323);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.mainContainerPanel);
             this.Controls.Add(this.taskInputBox);
             this.Controls.Add(this.addNewLabel);
@@ -132,6 +145,7 @@ namespace SimpleToDoist
             this.mainContainerPanel.ResumeLayout(false);
             this.mainContainerPanel.PerformLayout();
             this.innerPanel.ResumeLayout(false);
+            this.innerPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -146,6 +160,7 @@ namespace SimpleToDoist
         private System.Windows.Forms.Panel innerPanel;
         private System.Windows.Forms.FlowLayoutPanel tasksLayoutPanel;
         private System.Windows.Forms.FlowLayoutPanel checkBoxLayoutPanel;
+        private Button saveButton;
     }
 }
 

@@ -51,10 +51,10 @@ namespace SimpleToDoist
             newTaskItem.CreateTaskLabel();
             newTaskItem.CreateTaskCheckBox();
 
-            newTaskItem.taskCheckBox.CheckedChanged += TaskCheckBox_CheckedChanged;
+            newTaskItem.TaskCheckBox.CheckedChanged += TaskCheckBox_CheckedChanged;
 
             CreateTaskItem(newTaskItem);
-            CheckTaskAmmount();
+            if (TaskCounter > 0) wasCalled = true;
 
             return newTaskItem;
         }
@@ -74,21 +74,19 @@ namespace SimpleToDoist
         private void CreateTaskItem(TaskItem newTaskItem)
         {
 
-            tasksLayoutPanel.Controls.Add(newTaskItem.taskLabel);
-            checkBoxLayoutPanel.Controls.Add(newTaskItem.taskCheckBox);
+            tasksLayoutPanel.Controls.Add(newTaskItem.TaskLabel);
+            checkBoxLayoutPanel.Controls.Add(newTaskItem.TaskCheckBox);
 
             TaskCounter++;
         }
 
         private void CheckTaskAmmount()
         {
-            if (TaskCounter == 0 && wasCalled)
+            if (_taskCounter == 0 && wasCalled)
             {
                 MessageBox.Show("You're done with your tasks!");
                 this.Close();
             }
-            
-            if (TaskCounter > 0) wasCalled = true;
         }
 
         private void TaskCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -103,6 +101,7 @@ namespace SimpleToDoist
 
                 int clickedTaskIndex = connectedTask.TaskIndex;
                 DropTask(clickedTaskIndex);
+                CheckTaskAmmount();
 
                 Debug.WriteLine(TaskCounter.ToString());
             }
@@ -117,7 +116,7 @@ namespace SimpleToDoist
 
                 currentTask.CopyForm(nextTask);
                 currentTask.TaskIndex = i;
-                currentTask.taskCheckBox.Tag = currentTask;
+                currentTask.TaskCheckBox.Tag = currentTask;
                 currentTask.UpdateTaskLabel();
             }
             DeleteTaskInstance();
@@ -130,11 +129,11 @@ namespace SimpleToDoist
             TaskItem lastTask = taskItemsList[TaskCounter - 1];
             if(!lastTask.ValidateTaskParams()) return;
 
-            lastTask.taskCheckBox.Visible = false;
-            lastTask.taskLabel.Visible = false;
+            lastTask.TaskCheckBox.Visible = false;
+            lastTask.TaskLabel.Visible = false;
 
-            checkBoxLayoutPanel.Controls.Remove(lastTask.taskCheckBox);
-            tasksLayoutPanel.Controls.Remove(lastTask.taskLabel);
+            checkBoxLayoutPanel.Controls.Remove(lastTask.TaskCheckBox);
+            tasksLayoutPanel.Controls.Remove(lastTask.TaskLabel);
 
             lastTask = null;
 
@@ -153,14 +152,21 @@ namespace SimpleToDoist
         // *****************************
         private void simpleToDoist_Load(object sender, EventArgs e)
         {
-            FormInnits formProperites = new FormInnits();
-            formProperites.LabelPanel = tasksLayoutPanel;
-            formProperites.CheckBoxPanel = checkBoxLayoutPanel;
+            this.ActiveControl = taskInputBox;
 
-            FormInnits.Innit_ToDoList(formProperites);
+            FormTests();
+        }
 
-            this.Controls.Add(formProperites.MainContainerPanel);
-            //FormTests();
+        private void taskInputBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            bool enterPressed = e.KeyCode == Keys.Enter;
+            if (enterPressed)
+            {
+                taskAddButton_Click(null, null);
+                e.SuppressKeyPress = true;
+
+                taskInputBox.Clear();
+            }
         }
 
         private void taskAddButton_Click(object sender, EventArgs e)
@@ -169,7 +175,12 @@ namespace SimpleToDoist
             if (newTaskItem == null) return;
 
             taskItemsList.Add(newTaskItem);
-            //MessageBox.Show(TaskCounter.ToString());
+            taskInputBox.Clear();
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

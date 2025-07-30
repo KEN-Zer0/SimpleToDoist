@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using static SimpleToDoist.AppConstants;
 
@@ -160,5 +161,21 @@ namespace SimpleToDoist
             formInnits.Innit_TaskCheckBoxPanel(toDoListHeight);
             //formInnits.Innit_TaskScrollBar(toDoListHeight);
         }
+        /*
+         * bylo w mainie
+        private void simpleToDoist_Load(object sender, EventArgs e)
+        {
+            this.ActiveControl = taskInputBox;
+
+            FormInnits formProperites = new FormInnits();
+            formProperites.LabelPanel = tasksLayoutPanel;
+            formProperites.CheckBoxPanel = checkBoxLayoutPanel;
+
+            FormInnits.Innit_ToDoList(formProperites);
+
+            this.Controls.Add(formProperites.MainContainerPanel);
+            FormTests();
+        }
+        */
     }
 }

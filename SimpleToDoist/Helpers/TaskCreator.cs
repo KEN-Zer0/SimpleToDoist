@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using static SimpleToDoist.AppConstants;
 
@@ -14,8 +13,8 @@ namespace SimpleToDoist.TasksCreation
         public string TaskDescription;
         private bool _taskCompletion;
 
-        public Label taskLabel;
-        public CheckBox taskCheckBox;
+        public Label TaskLabel;
+        public CheckBox TaskCheckBox;
 
         // Properites Creation
         public int TaskIndex
@@ -42,7 +41,8 @@ namespace SimpleToDoist.TasksCreation
                 bool isEmpty = string.IsNullOrWhiteSpace(value);
                 if (isEmpty)
                 {
-                    MessageBox.Show($"Error Task Name is empty");
+                    MessageBox.Show($"Error Task Name is empty", "Info", MessageBoxButtons.OK, MessageBoxIcon.None);
+
                     return;
                 }
                 _taskName = value;
@@ -64,6 +64,8 @@ namespace SimpleToDoist.TasksCreation
                 _taskTitle = value.Trim();
             }
         }
+
+        public ToolTip TaskLabelToolTip { get; set; }
 
         public bool TaskCompletion
         {
@@ -105,8 +107,9 @@ namespace SimpleToDoist.TasksCreation
             this.TaskDescription = other.TaskDescription;
             this.TaskCompletion = other.TaskCompletion;
 
-            this.taskLabel.Text = other.taskLabel.Text;
-            this.taskCheckBox.Checked = other.taskCheckBox.Checked;
+            this.TaskLabel.Text = other.TaskLabel.Text;
+            this.TaskLabelToolTip = other.TaskLabelToolTip;
+            this.TaskCheckBox.Checked = other.TaskCheckBox.Checked;
         }
 
         // Creating Task-Form Elements
@@ -124,13 +127,43 @@ namespace SimpleToDoist.TasksCreation
             newTaskLabel.Margin = new Padding(0, labelElementMargin, 0, labelElementMargin);
             newTaskLabel.Size = new Size(labelElementWidth, labelElementHeight);
 
+            newTaskLabel.MouseEnter += (s, e) =>
+            {
+                newTaskLabel.BackColor = Color.FromArgb(50, 255, 255, 255);
+            };
+
+            newTaskLabel.MouseLeave+= (s, e) =>
+            {
+                newTaskLabel.BackColor = Color.Transparent;
+            };
+
+
+
             newTaskLabel.Tag = this;
-            this.taskLabel = newTaskLabel;
+            this.TaskLabel = newTaskLabel;
+
+            TaskLabelToolTip = CreateToolTip_TaskLabel();
+        }
+
+        private ToolTip CreateToolTip_TaskLabel()
+        {
+            ToolTip toolTip = new ToolTip();
+
+            if (TaskLabel == null || TaskName == null) return null;
+            toolTip.SetToolTip(TaskLabel, TaskTitle);
+
+            toolTip.Active = true;
+            toolTip.AutoPopDelay = 30000;
+            toolTip.InitialDelay = 1000;
+            toolTip.ReshowDelay = 500;
+            toolTip.ShowAlways = true;
+
+            return toolTip;
         }
 
         public void UpdateTaskLabel()
         {
-            Label currentLabel = taskLabel;
+            Label currentLabel = TaskLabel;
 
             currentLabel.Tag = this;
             currentLabel.Text = SetTaskLabel_Text();
@@ -154,7 +187,7 @@ namespace SimpleToDoist.TasksCreation
             newTaskCheckBox.Margin = new Padding(0, checkBoxElementMargin, 0, checkBoxElementMargin);
 
             newTaskCheckBox.Tag = this;
-            this.taskCheckBox = newTaskCheckBox;
+            this.TaskCheckBox = newTaskCheckBox;
         }
 
     }
