@@ -48,15 +48,30 @@ namespace SimpleToDoist
             TaskItem newTaskItem = CreateTask();
             if (newTaskItem == null) return null;
 
-            newTaskItem.CreateTaskLabel();
-            newTaskItem.CreateTaskCheckBox();
-
-            CreateTaskItem(newTaskItem);
-            if (TaskCounter > 0) wasCalled = true;
+            AddTaskToForm(newTaskItem);
 
             return newTaskItem;
         }
 
+        private void AddTaskToForm(TaskItem taskElement)
+        {
+            taskElement.CreateTaskLabel();
+            taskElement.CreateTaskCheckBox();
+
+            CreateTaskObjectOnForm(taskElement);
+            if (TaskCounter > 0) wasCalled = true;
+        }
+
+        private void CreateTaskObjectOnForm(TaskItem newTaskItem)
+        {
+
+            tasksLayoutPanel.Controls.Add(newTaskItem.TaskLabel);
+            checkBoxLayoutPanel.Controls.Add(newTaskItem.TaskCheckBox);
+            newTaskItem.TaskCheckBox.CheckedChanged += TaskCheckBox_CheckedChanged;
+
+            TaskCounter++;
+        }
+ 
         private TaskItem CreateTask()
         {
             TaskItem newTask = new TaskItem(TaskCounter);
@@ -66,17 +81,6 @@ namespace SimpleToDoist
             if (!isTaskValid) return null;
 
             return newTask;
-        }
-
-        // Create task instance on form
-        private void CreateTaskItem(TaskItem newTaskItem)
-        {
-
-            tasksLayoutPanel.Controls.Add(newTaskItem.TaskLabel);
-            checkBoxLayoutPanel.Controls.Add(newTaskItem.TaskCheckBox);
-            newTaskItem.TaskCheckBox.CheckedChanged += TaskCheckBox_CheckedChanged;
-
-            TaskCounter++;
         }
 
         private void CheckTaskAmmount()
@@ -100,7 +104,7 @@ namespace SimpleToDoist
 
                 int clickedTaskIndex = connectedTask.TaskIndex;
                 DropTask(clickedTaskIndex);
-                if(e != null) CheckTaskAmmount();
+                if (e != null) CheckTaskAmmount();
 
                 Debug.WriteLine(TaskCounter.ToString());
             }
@@ -125,8 +129,9 @@ namespace SimpleToDoist
         private void DeleteTaskInstance()
         {
             if (taskItemsList == null) return;
+
             TaskItem lastTask = taskItemsList[TaskCounter - 1];
-            if(!lastTask.ValidateTaskParams()) return;
+            if (!lastTask.ValidateTaskParams()) return;
 
             lastTask.TaskCheckBox.Visible = false;
             lastTask.TaskLabel.Visible = false;
@@ -149,11 +154,14 @@ namespace SimpleToDoist
         // *****************************
         //      * MAIN FUNCTIONS *
         // *****************************
+
+        // NOTE TO SELF:
+        // Check why i cant put anything other than e in EventArgs 
         private void simpleToDoist_Load(object sender, EventArgs e)
         {
             this.ActiveControl = taskInputBox;
 
-            FormTests();
+            //FormTests(); // uncomennt it if you want example task
         }
 
         private void taskInputBox_KeyDown(object sender, KeyEventArgs e)
@@ -161,19 +169,34 @@ namespace SimpleToDoist
             bool enterPressed = e.KeyCode == Keys.Enter;
             if (enterPressed)
             {
-                taskAddButton_Click(null, null);
+                addTaskButton_Click(null, null);
                 e.SuppressKeyPress = true;
 
                 taskInputBox.Clear();
             }
         }
 
-        private void taskAddButton_Click(object sender, EventArgs e)
+        // Advance Task Editor
+        private void createNewAdvancedTaskButton_Click(object sender, EventArgs e)
         {
-            TaskItem newTaskItem = CreateNewTaskElement();
-            if (newTaskItem == null) return;
+            TaskItem newAdvanceTask = new TaskItem(TaskCounter);
 
-            taskItemsList.Add(newTaskItem);
+            TaskCreator taskCreator = new TaskCreator(newAdvanceTask);
+            taskCreator.ShowDialog();
+
+            if(!newAdvanceTask.ValidateTaskParams()) return;
+            AddTaskToForm(newAdvanceTask);
+
+            taskItemsList.Add(newAdvanceTask);
+        }
+
+        // Simple Task Addition
+        private void addTaskButton_Click(object sender, EventArgs e)
+        {
+            TaskItem newSimpleTaskItem = CreateNewTaskElement();
+            if (newSimpleTaskItem == null) return;
+
+            taskItemsList.Add(newSimpleTaskItem);
             taskInputBox.Clear();
         }
 
@@ -191,13 +214,17 @@ namespace SimpleToDoist
 
             foreach (TaskItem taskItem in taskItemsList)
             {
-                CreateTaskItem(taskItem);
+                CreateTaskObjectOnForm(taskItem);
             }
         }
 
         private void clearButton_Click(object sender, EventArgs e)
         {
-            if (taskItemsList == null) return;
+            if (taskItemsList == null || taskItemsList.Count == 0)
+            {
+                MessageBox.Show("Cannot clear empty list!");
+                return;
+            }
             for (int index = taskItemsList.Count - 1; index >= 0; index--)
             {
                 DropTask(taskItemsList[index].TaskIndex);

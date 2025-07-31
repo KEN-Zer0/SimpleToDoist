@@ -31,7 +31,7 @@ namespace SimpleToDoist
         /// </summary>
         private void InitializeComponent()
         {
-            this.taskAddButton = new System.Windows.Forms.Button();
+            this.createNewTaskButton = new System.Windows.Forms.Button();
             this.addNewLabel = new System.Windows.Forms.Label();
             this.taskInputBox = new System.Windows.Forms.TextBox();
             this.mainContainerPanel = new System.Windows.Forms.Panel();
@@ -41,27 +41,29 @@ namespace SimpleToDoist
             this.saveButton = new System.Windows.Forms.Button();
             this.loadButton = new System.Windows.Forms.Button();
             this.clearButton = new System.Windows.Forms.Button();
+            this.addTaskButton = new System.Windows.Forms.Button();
             this.mainContainerPanel.SuspendLayout();
             this.innerPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // taskAddButton
+            // createNewTaskButton
             // 
-            this.taskAddButton.Location = new System.Drawing.Point(51, 68);
-            this.taskAddButton.Margin = new System.Windows.Forms.Padding(0);
-            this.taskAddButton.Name = "taskAddButton";
-            this.taskAddButton.Size = new System.Drawing.Size(78, 20);
-            this.taskAddButton.TabIndex = 1;
-            this.taskAddButton.Text = "Add Task";
-            this.taskAddButton.UseVisualStyleBackColor = true;
-            this.taskAddButton.Click += new System.EventHandler(this.taskAddButton_Click);
+            this.createNewTaskButton.Location = new System.Drawing.Point(51, 68);
+            this.createNewTaskButton.Margin = new System.Windows.Forms.Padding(0);
+            this.createNewTaskButton.Name = "createNewAdvancedTaskButton";
+            this.createNewTaskButton.Size = new System.Drawing.Size(78, 20);
+            this.createNewTaskButton.TabIndex = 1;
+            this.createNewTaskButton.Text = "Add Task";
+            this.createNewTaskButton.UseVisualStyleBackColor = true;
+            this.createNewTaskButton.Click += new System.EventHandler(this.createNewAdvancedTaskButton_Click);
             // 
             // addNewLabel
             // 
             this.addNewLabel.AutoSize = true;
-            this.addNewLabel.Location = new System.Drawing.Point(48, 49);
+            this.addNewLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.addNewLabel.Location = new System.Drawing.Point(49, 45);
             this.addNewLabel.Name = "addNewLabel";
-            this.addNewLabel.Size = new System.Drawing.Size(210, 13);
+            this.addNewLabel.Size = new System.Drawing.Size(310, 20);
             this.addNewLabel.TabIndex = 1;
             this.addNewLabel.Text = "Create new Task for your simple ToDo List:";
             this.addNewLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -72,7 +74,7 @@ namespace SimpleToDoist
             this.taskInputBox.ForeColor = System.Drawing.SystemColors.ControlText;
             this.taskInputBox.Location = new System.Drawing.Point(132, 68);
             this.taskInputBox.Name = "taskInputBox";
-            this.taskInputBox.Size = new System.Drawing.Size(227, 20);
+            this.taskInputBox.Size = new System.Drawing.Size(210, 20);
             this.taskInputBox.TabIndex = 0;
             this.taskInputBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.taskInputBox_KeyDown);
             // 
@@ -152,19 +154,31 @@ namespace SimpleToDoist
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
+            // addTaskButton
+            // 
+            this.addTaskButton.Location = new System.Drawing.Point(339, 68);
+            this.addTaskButton.Margin = new System.Windows.Forms.Padding(0);
+            this.addTaskButton.Name = "addTaskButton";
+            this.addTaskButton.Size = new System.Drawing.Size(20, 20);
+            this.addTaskButton.TabIndex = 7;
+            this.addTaskButton.Text = "+";
+            this.addTaskButton.UseVisualStyleBackColor = true;
+            this.addTaskButton.Click += new System.EventHandler(this.addTaskButton_Click);
+            // 
             // simpleToDoist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.ClientSize = new System.Drawing.Size(428, 323);
+            this.Controls.Add(this.addTaskButton);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.mainContainerPanel);
             this.Controls.Add(this.taskInputBox);
             this.Controls.Add(this.addNewLabel);
-            this.Controls.Add(this.taskAddButton);
+            this.Controls.Add(this.createNewTaskButton);
             this.Name = "simpleToDoist";
             this.Text = "simpleToDoist";
             this.Load += new System.EventHandler(this.simpleToDoist_Load);
@@ -179,7 +193,7 @@ namespace SimpleToDoist
 
         #endregion
 
-        private System.Windows.Forms.Button taskAddButton;
+        private System.Windows.Forms.Button createNewTaskButton;
         private System.Windows.Forms.Label addNewLabel;
         private System.Windows.Forms.TextBox taskInputBox;
         private System.Windows.Forms.Panel mainContainerPanel;
@@ -189,6 +203,7 @@ namespace SimpleToDoist
         private Button saveButton;
         private Button loadButton;
         private Button clearButton;
+        private Button addTaskButton;
     }
 }
 

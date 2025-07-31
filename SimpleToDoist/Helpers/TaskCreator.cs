@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using static SimpleToDoist.AppConstants;
 
@@ -11,6 +12,31 @@ namespace SimpleToDoist.TasksCreation
         private string _taskName;
         private string _taskTitle;
         public string TaskDescription;
+        public DateTime CreationDate
+        {
+            get { return DateTime.Now; }
+        }
+        public DateTime TaskDueDate {  get; set; }
+        public TimeSpan TaskRemainingTime;
+        
+        public void UpdateRemainingTime()
+        {
+            TaskRemainingTime = TaskDueDate - DateTime.Now;
+        }
+
+        private byte _taskPriority;
+        public int TaskPriority 
+        { 
+            get { return _taskPriority; } 
+            set
+            {
+                if(value < 0 || value > 10) return;
+                _taskPriority = (byte)value;
+            }
+        }
+        public string TaskCategory { get; set; }
+        public Color TaskLabelColor { get; set; }
+
         private bool _taskCompletion;
 
         public Label TaskLabel;
@@ -93,7 +119,7 @@ namespace SimpleToDoist.TasksCreation
             bool isNameInvalid = TaskName == null;
             bool isTitleInvalid = TaskTitle == null;
 
-            if(isIndexInvalid || isNameInvalid || isTitleInvalid) 
+            if (isIndexInvalid || isNameInvalid || isTitleInvalid) 
                 return false;
 
             return true;
@@ -127,17 +153,7 @@ namespace SimpleToDoist.TasksCreation
             newTaskLabel.Margin = new Padding(0, labelElementMargin, 0, labelElementMargin);
             newTaskLabel.Size = new Size(labelElementWidth, labelElementHeight);
 
-            newTaskLabel.MouseEnter += (s, e) =>
-            {
-                newTaskLabel.BackColor = Color.FromArgb(50, 255, 255, 255);
-            };
-
-            newTaskLabel.MouseLeave+= (s, e) =>
-            {
-                newTaskLabel.BackColor = Color.Transparent;
-            };
-
-
+            CreateTaskLabelEvents(newTaskLabel);
 
             newTaskLabel.Tag = this;
             this.TaskLabel = newTaskLabel;
@@ -145,12 +161,46 @@ namespace SimpleToDoist.TasksCreation
             TaskLabelToolTip = CreateToolTip_TaskLabel();
         }
 
+        private void CreateTaskLabelEvents(Label label)
+        {
+            label.Click += (s, e) =>
+            {
+                UpdateRemainingTime();
+
+                string msg = TaskCategory + ":\n" + 
+                SetToolTipText() + "\n" +
+                "Due to: " + TaskDueDate.ToString() + "\n" +
+                "Time left: " + TaskRemainingTime.ToString(@"hh\:mm\:ss");
+                MessageBox.Show(msg, "Task Description");
+            };
+
+            label.MouseEnter += (s, e) =>
+            {
+                if(TaskLabelColor != null)
+                {
+                    label.BackColor = TaskLabelColor;
+                } 
+                else
+                {
+                    label.BackColor = Color.FromArgb(50, 255, 255, 255);
+                }
+            };
+
+            label.MouseLeave += (s, e) =>
+            {
+                label.BackColor = Color.Transparent;
+            };
+        }
+
         private ToolTip CreateToolTip_TaskLabel()
         {
             ToolTip toolTip = new ToolTip();
 
-            if (TaskLabel == null || TaskName == null) return null;
-            toolTip.SetToolTip(TaskLabel, TaskTitle);
+            if (TaskLabel == null) return null;
+
+            string toolTipText = SetToolTipText();
+            if (toolTipText == null) return null;
+            toolTip.SetToolTip(TaskLabel, toolTipText);
 
             toolTip.Active = true;
             toolTip.AutoPopDelay = 30000;
@@ -159,6 +209,24 @@ namespace SimpleToDoist.TasksCreation
             toolTip.ShowAlways = true;
 
             return toolTip;
+        }
+
+        private string SetToolTipText()
+        {
+            if(TaskDescription == null) return null;
+            string toolTipText;
+
+            if (_taskPriority >= 0 && _taskPriority <= 10)
+            {
+                toolTipText = 
+                    TaskDescription + " | Priority: " + TaskPriority;
+            }
+            else
+            {
+                toolTipText = TaskDescription;
+            }
+
+            return toolTipText;
         }
 
         public void UpdateTaskLabel()
