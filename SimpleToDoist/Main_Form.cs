@@ -19,6 +19,7 @@ namespace SimpleToDoist
         public simpleToDoist()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         // Variables
@@ -105,7 +106,7 @@ namespace SimpleToDoist
                 int clickedTaskIndex = connectedTask.TaskIndex;
                 DropTask(clickedTaskIndex);
                 if (e != null) CheckTaskAmmount();
-
+                
                 Debug.WriteLine(TaskCounter.ToString());
             }
         }
@@ -122,11 +123,11 @@ namespace SimpleToDoist
                 currentTask.TaskCheckBox.Tag = currentTask;
                 currentTask.UpdateTaskLabel();
             }
-            DeleteTaskInstance();
+            DeleteTaskItem();
             TaskCounter--;
         }
 
-        private void DeleteTaskInstance()
+        private void DeleteTaskItem()
         {
             if (taskItemsList == null) return;
 
@@ -202,12 +203,21 @@ namespace SimpleToDoist
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            if (taskItemsList == null || taskItemsList.Count == 0)
+            {
+                MessageBox.Show("Cannot save empty list!");
+                return;
+            }
+
             TaskSaving.SaveTasks(taskItemsList);
         }
 
         private void loadButton_Click(object sender, EventArgs e)
         {
-            clearButton_Click(null, null);
+            if(taskItemsList != null && taskItemsList.Count > 0)
+            {
+                clearButton_Click(null, null);
+            }
 
             taskItemsList = TaskSaving.ReadTasks();
             if (taskItemsList == null) return;
@@ -216,6 +226,7 @@ namespace SimpleToDoist
             {
                 CreateTaskObjectOnForm(taskItem);
             }
+            wasCalled = true;
         }
 
         private void clearButton_Click(object sender, EventArgs e)
@@ -225,6 +236,7 @@ namespace SimpleToDoist
                 MessageBox.Show("Cannot clear empty list!");
                 return;
             }
+
             for (int index = taskItemsList.Count - 1; index >= 0; index--)
             {
                 DropTask(taskItemsList[index].TaskIndex);

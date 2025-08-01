@@ -30,7 +30,7 @@ namespace SimpleToDoist.TasksCreation
             get { return _taskPriority; } 
             set
             {
-                if(value < 0 || value > 10) return;
+                if(value < minTaskPriority || value > maxTaskPriority) return;
                 _taskPriority = (byte)value;
             }
         }
@@ -108,6 +108,8 @@ namespace SimpleToDoist.TasksCreation
         // Constructor
         public TaskItem(int taskId)
         {
+            if (taskId < 0) return;
+
             TaskIndex = taskId;
             TaskName = newTaskName + TaskIndex.ToString();
             TaskCompletion = false;
@@ -167,9 +169,9 @@ namespace SimpleToDoist.TasksCreation
             {
                 UpdateRemainingTime();
 
-                string msg = TaskCategory + ":\n" + 
-                SetToolTipText() + "\n" +
-                "Due to: " + TaskDueDate.ToString() + "\n" +
+                string msg = TaskCategory + "\n\n" + 
+                SetToolTipText() + "\n\n" +
+                "Due to: " + TaskDueDate.ToString(@"hh\:mm") + "\n" +
                 "Time left: " + TaskRemainingTime.ToString(@"hh\:mm\:ss");
                 MessageBox.Show(msg, "Task Description");
             };
@@ -214,17 +216,7 @@ namespace SimpleToDoist.TasksCreation
         private string SetToolTipText()
         {
             if(TaskDescription == null) return null;
-            string toolTipText;
-
-            if (_taskPriority >= 0 && _taskPriority <= 10)
-            {
-                toolTipText = 
-                    TaskDescription + " | Priority: " + TaskPriority;
-            }
-            else
-            {
-                toolTipText = TaskDescription;
-            }
+            string toolTipText = "Description:\n" + TaskDescription;
 
             return toolTipText;
         }

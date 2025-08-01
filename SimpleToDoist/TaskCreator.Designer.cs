@@ -137,10 +137,10 @@ namespace SimpleToDoist
             // 
             this.priorityScroll.LargeChange = 1;
             this.priorityScroll.Location = new System.Drawing.Point(356, 112);
-            this.priorityScroll.Maximum = 10;
             this.priorityScroll.Name = "priorityScroll";
             this.priorityScroll.Size = new System.Drawing.Size(169, 19);
             this.priorityScroll.TabIndex = 3;
+            this.priorityScroll.TabStop = true;
             this.priorityScroll.Scroll += new System.Windows.Forms.ScrollEventHandler(this.priorityScroll_Scroll);
             // 
             // createButton
@@ -232,6 +232,7 @@ namespace SimpleToDoist
             this.Controls.Add(this.descriptionLabel);
             this.Controls.Add(this.headerLabel);
             this.Name = "TaskCreator";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Task Creation";
             this.ResumeLayout(false);
             this.PerformLayout();

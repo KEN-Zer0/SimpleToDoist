@@ -1,6 +1,7 @@
 ﻿using SimpleToDoist.TasksCreation;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -17,8 +18,10 @@ namespace SimpleToDoist
             Title,
             Description,
             Completion,
-            Label,
-            CheckBox
+            DueDate,
+            Priority,
+            Category,
+            LabelColor
         }
 
         public static void SaveTasks(List<TaskItem> taskList)
@@ -30,15 +33,9 @@ namespace SimpleToDoist
             }
 
             string fileSavingPath = Path.Combine(saveDirecotryPath, taskSavingPath);
-            if (!File.Exists(fileSavingPath))
-            {
-                File.Create(fileSavingPath);
-            }
+            File.WriteAllText(fileSavingPath, "");
 
             if (!Directory.Exists(saveDirecotryPath) || !File.Exists(fileSavingPath)) return;
-
-            // File clearing
-            File.WriteAllText(fileSavingPath, "");
 
             foreach (TaskItem item in taskList)
             {
@@ -47,7 +44,11 @@ namespace SimpleToDoist
                     item.TaskName,
                     item.TaskTitle,
                     item.TaskDescription,
-                    item.TaskCompletion.ToString()
+                    item.TaskCompletion.ToString(),
+                    item.TaskDueDate.ToString(),
+                    item.TaskPriority.ToString(),
+                    item.TaskCategory,
+                    item.TaskLabelColor.ToArgb().ToString(),
                 };
 
                 foreach (string data in taskData)
@@ -85,18 +86,23 @@ namespace SimpleToDoist
             {
                 if (line == null || line == "") break;
 
-                string[] taskProperites = line.Split(';');
+                string[] props = line.Split(';');
 
-                int taskIndex = int.Parse(taskProperites[(int)taskPropertiesOrder.Index]);
+                int taskIndex = int.Parse(props[(int)taskPropertiesOrder.Index]);
                 TaskItem item = new TaskItem(taskIndex);
 
-                    item.TaskName = taskProperites[(int)taskPropertiesOrder.Name];
-                    item.TaskTitle = taskProperites[(int)taskPropertiesOrder.Title];
-                    item.TaskDescription = taskProperites[(int)taskPropertiesOrder.Description];
-                    item.TaskCompletion = bool.Parse(taskProperites[(int)taskPropertiesOrder.Completion]);
+                item.TaskName = props[(int)taskPropertiesOrder.Name];
+                item.TaskTitle = props[(int)taskPropertiesOrder.Title];
+                item.TaskDescription = props[(int)taskPropertiesOrder.Description];
+                item.TaskCompletion = bool.Parse(props[(int)taskPropertiesOrder.Completion]);
+                item.TaskDueDate = DateTime.Parse(props[(int)taskPropertiesOrder.DueDate]);
+                item.TaskPriority = int.Parse(props[(int)taskPropertiesOrder.Priority]);
+                item.TaskCategory = props[(int)taskPropertiesOrder.Category];
+                item.TaskLabelColor = Color.FromArgb(int.Parse(props[(int)taskPropertiesOrder.LabelColor]));
 
-                    item.CreateTaskLabel();
-                    item.CreateTaskCheckBox();
+
+                item.CreateTaskLabel();
+                item.CreateTaskCheckBox();
 
                 taskList.Add(item);
             }

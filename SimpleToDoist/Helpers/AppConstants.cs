@@ -7,6 +7,10 @@
         public const string newTaskName = "taskItem_";
         public const string tasksSavingDirectory = "Saves";
         public const string taskSavingPath = "taskData.txt";
+
+        public const int minTaskPriority = 1;
+        public const int maxTaskPriority = 10;
+        
         // Task count
         public const int maxTaskItemElementsCount = 6;
 
