@@ -1,38 +1,226 @@
-﻿using System;
+﻿using SimpleToDoist;
+using SimpleToDoist.TasksCreation;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using SimpleToDoist;
-using SimpleToDoist.TasksCreation;
-using static SimpleToDoist.TaskSaving;
 using static SimpleToDoist.AppConstants;
+using static SimpleToDoist.TaskSaving;
 
 namespace SimpleToDoist.test
 {
-    public class SavingTests
+    public class EssentialTests
     {
+        // TaskItem Constructor Tests
         [Fact]
-        public void Test_Constructor_InvalidParams1()
+        public void Test_01_Constructor_InvalidParams1_NegativeIndex()
         {
             // Arrange
+            int index = -1;
+            const int negativeIndexError = -1;
+
             // Act
-            TaskItem taskItem = new TaskItem(1);
+            TaskItem taskItem = new TaskItem(index);
 
             // Assert
-            Assert.Null(taskItem);
-            Assert.Equal(0, taskItem.TaskIndex);
-            Assert.Null(taskItem.TaskName);
+            Assert.Equal(negativeIndexError, taskItem.TaskIndex);
+            Assert.Equal("", taskItem.TaskName);
+            
             Assert.False(taskItem.TaskCompletion);
+            Assert.NotNull(taskItem);
         }
 
         [Fact]
-        public void Test_Constructor_InvalidParams2()
+        public void Test_02_Constructor_InvalidParams2_EmptyTaskName()
         {
-            TaskItem taskItem = new TaskItem(0);
+            // Arrange
+            int index = 0;
+            const int desiredIndex = 0;
+            string taskName = "";
 
+            // Act
+            TaskItem taskItem = new TaskItem(index);
+            taskItem.TaskName = taskName;
 
+            // Assert
+            Assert.Equal(desiredIndex, taskItem.TaskIndex);
+            Assert.Equal("", taskItem.TaskName);
+            
+            Assert.False(taskItem.TaskCompletion);
+            Assert.NotNull(taskItem);
+        }
+
+        [Fact]
+        public void Test_03_Constructor_ValidParams1()
+        {
+            // Arrange
+            int index = 0;
+            const int desiredIndex = 0;
+            string desiredTaskName = string.Concat(newTaskName, desiredIndex.ToString());
+
+            // Act
+            TaskItem taskItem = new TaskItem(index);
+
+            // Assert
+            Assert.Equal(desiredIndex, taskItem.TaskIndex);
+            Assert.Equal(desiredTaskName, taskItem.TaskName);
+            
+            Assert.False(taskItem.TaskCompletion);
+            Assert.NotNull(taskItem);
+        }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(-10)]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(10)]
+        [InlineData(999)]
+        public void Test_04_ValidateTaskParams1_IndexValidation(
+            int index)
+        {
+            // Arrange
+            const string validString = "valid";
+
+            // Act
+            TaskItem taskItem = new TaskItem(index);
+            taskItem.TaskName = taskItem.TaskTitle = validString;
+            bool isValid = taskItem.ValidateTaskParams();
+
+            // Assert
+            if (index < 0)
+            {
+                Assert.False(isValid);
+            } 
+            else
+            {
+                Assert.True(isValid);
+            }
+
+            
+            Assert.False(taskItem.TaskCompletion);
+            Assert.NotNull(taskItem);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\n")]
+        [InlineData("1")]
+        [InlineData("---")]
+        [InlineData("//*-+\\{{}}[[]](())\"\'|;")]
+        [InlineData("item")]
+        [InlineData("taskName")]
+        [InlineData("someLongStringToTestIfThereIsNoProblemWithLongerNamesForEitherTaskNameOrTaskTitle")]
+        [InlineData("nameWith_SpecialCharacters")]
+        [InlineData("nameWith-SpecialCharacters")]
+        [InlineData("nameWith.SpecialCharacters")]
+        [InlineData(".name-With*Special//Characters_+=-")]
+        public void Test_05_ValidateTaskParams2_NameValidation(
+            string taskName)
+        {
+            // Arrange
+            int index = 0;
+            const string validString = "valid";
+
+            // Act
+            TaskItem taskItem = new TaskItem(index);
+            taskItem.TaskTitle = validString;
+
+            taskItem.TaskName = taskName;
+
+            bool isValid = taskItem.ValidateTaskParams();
+
+            // Assert
+            if (string.IsNullOrWhiteSpace(taskName))
+            {
+                Assert.False(isValid);
+            }
+            else
+            {
+                Assert.True(isValid);
+            }
+
+            
+            Assert.False(taskItem.TaskCompletion);
+            Assert.NotNull(taskItem);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("\n")]
+        [InlineData("1")]
+        [InlineData("---")]
+        [InlineData("//*-+\\{{}}[[]](())\"\'|;")]
+        [InlineData("item")]
+        [InlineData("taskName")]
+        [InlineData("someLongStringToTestIfThereIsNoProblemWithLongerNamesForEitherTaskNameOrTaskTitle")]
+        [InlineData("nameWith_SpecialCharacters")]
+        [InlineData("nameWith-SpecialCharacters")]
+        [InlineData("nameWith.SpecialCharacters")]
+        [InlineData(".name-With*Special//Characters_+=-")]
+        public void Test_06_ValidateTaskParams3_TitleValidation(
+            string taskTitle)
+        {
+            // Arrange
+            int index = 0;
+
+            // Act
+            TaskItem taskItem = new TaskItem(index);
+            taskItem.TaskTitle = taskTitle;
+
+            bool isValid = taskItem.ValidateTaskParams();
+
+            // Assert
+            if (string.IsNullOrWhiteSpace(taskTitle))
+            {
+                Assert.False(isValid);
+            }
+            else
+            {
+                Assert.True(isValid);
+            }
+
+            
+            Assert.False(taskItem.TaskCompletion);
+            Assert.NotNull(taskItem);
         }
     }
 }
+
+//// Properites
+//private int _taskIndex;
+//private string _taskName;
+//private string _taskTitle;
+//public string TaskDescription;
+
+//public DateTime TaskDueDate { get; set; }
+//public TimeSpan TaskRemainingTime;
+
+//public void UpdateRemainingTime()
+//{
+//    TaskRemainingTime = TaskDueDate - DateTime.Now;
+//}
+
+//private byte _taskPriority;
+//public int TaskPriority
+//{
+//    get { return _taskPriority; }
+//    set
+//    {
+//        if (value < minTaskPriority || value > maxTaskPriority) return;
+//        _taskPriority = (byte)value;
+//    }
+//}
+//public string TaskCategory { get; set; }
+//public Color TaskLabelColor { get; set; }
+
+//private bool _taskCompletion;
+
+//public Label TaskLabel;
+//public CheckBox TaskCheckBox;

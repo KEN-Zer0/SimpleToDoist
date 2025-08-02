@@ -12,10 +12,7 @@ namespace SimpleToDoist.TasksCreation
         private string _taskName;
         private string _taskTitle;
         public string TaskDescription;
-        public DateTime CreationDate
-        {
-            get { return DateTime.Now; }
-        }
+
         public DateTime TaskDueDate {  get; set; }
         public TimeSpan TaskRemainingTime;
         
@@ -51,7 +48,8 @@ namespace SimpleToDoist.TasksCreation
                 bool isNegative = value < 0;
                 if (isNegative)
                 {
-                    MessageBox.Show($"Error index {_taskIndex} is negative");
+                    // move to main code to not-stop test taking
+                    //MessageBox.Show($"Error index {_taskIndex} is negative"); 
                     return;
                 }
 
@@ -67,7 +65,9 @@ namespace SimpleToDoist.TasksCreation
                 bool isEmpty = string.IsNullOrWhiteSpace(value);
                 if (isEmpty)
                 {
-                    MessageBox.Show($"Error Task Name is empty", "Info", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    // move to main code to not-stop test taking
+                    //MessageBox.Show($"Error Task Name is empty", "Info", MessageBoxButtons.OK, MessageBoxIcon.None); 
+                    _taskName = "";
 
                     return;
                 }
@@ -83,8 +83,9 @@ namespace SimpleToDoist.TasksCreation
                 bool isEmpty = string.IsNullOrWhiteSpace(value);
                 if (isEmpty)
                 {
-                    _taskTitle = null;
-                    MessageBox.Show($"Error Task Name is empty");
+                    _taskTitle = "";
+                    // move to main code to not-stop test taking
+                    //MessageBox.Show($"Error Task Name is empty");
                     return;
                 }
                 _taskTitle = value.Trim();
@@ -108,7 +109,12 @@ namespace SimpleToDoist.TasksCreation
         // Constructor
         public TaskItem(int taskId)
         {
-            if (taskId < 0) return;
+            if (taskId < 0)
+            {
+                _taskIndex = -1;
+                _taskName = "";
+                return;
+            }
 
             TaskIndex = taskId;
             TaskName = newTaskName + TaskIndex.ToString();
@@ -118,8 +124,8 @@ namespace SimpleToDoist.TasksCreation
         public bool ValidateTaskParams()
         {
             bool isIndexInvalid = TaskIndex < 0;
-            bool isNameInvalid = TaskName == null;
-            bool isTitleInvalid = TaskTitle == null;
+            bool isNameInvalid = string.IsNullOrWhiteSpace(TaskName);
+            bool isTitleInvalid = string.IsNullOrWhiteSpace(TaskTitle);
 
             if (isIndexInvalid || isNameInvalid || isTitleInvalid) 
                 return false;
@@ -128,12 +134,15 @@ namespace SimpleToDoist.TasksCreation
         }
 
         // Task moving
-        public void CopyForm(TaskItem other)
+        public void CopyTaskPropertiesFrom(TaskItem other)
         {
             this.TaskName = other.TaskName;
             this.TaskTitle = other.TaskTitle;
             this.TaskDescription = other.TaskDescription;
             this.TaskCompletion = other.TaskCompletion;
+            
+            this.TaskDueDate = other.TaskDueDate;
+
 
             this.TaskLabel.Text = other.TaskLabel.Text;
             this.TaskLabelToolTip = other.TaskLabelToolTip;
@@ -171,8 +180,8 @@ namespace SimpleToDoist.TasksCreation
 
                 string msg = TaskCategory + "\n\n" + 
                 SetToolTipText() + "\n\n" +
-                "Due to: " + TaskDueDate.ToString(@"hh\:mm") + "\n" +
-                "Time left: " + TaskRemainingTime.ToString(@"hh\:mm\:ss");
+                "Due to: " + TaskDueDate.ToString(@"HH\:mm") + "\n" +
+                "Time left: " + TaskRemainingTime.ToString(@"HH\:mm\:ss");
                 MessageBox.Show(msg, "Task Description");
             };
 

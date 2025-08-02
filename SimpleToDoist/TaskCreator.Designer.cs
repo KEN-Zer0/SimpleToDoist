@@ -99,7 +99,7 @@ namespace SimpleToDoist
             // dueDateTimePicker
             // 
             this.dueDateTimePicker.Checked = false;
-            this.dueDateTimePicker.CustomFormat = "hh:mm dd.MM.yyyy";
+            this.dueDateTimePicker.CustomFormat = "HH:mm dd.MM.yyyy";
             this.dueDateTimePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
             this.dueDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dueDateTimePicker.Location = new System.Drawing.Point(107, 109);

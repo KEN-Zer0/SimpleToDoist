@@ -118,7 +118,7 @@ namespace SimpleToDoist
                 TaskItem currentTask = taskItemsList[i];
                 TaskItem nextTask = taskItemsList[i + 1];
 
-                currentTask.CopyForm(nextTask);
+                currentTask.CopyTaskPropertiesFrom(nextTask);
                 currentTask.TaskIndex = i;
                 currentTask.TaskCheckBox.Tag = currentTask;
                 currentTask.UpdateTaskLabel();
