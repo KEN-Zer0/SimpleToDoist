@@ -192,35 +192,3 @@ namespace SimpleToDoist.test
         }
     }
 }
-
-//// Properites
-//private int _taskIndex;
-//private string _taskName;
-//private string _taskTitle;
-//public string TaskDescription;
-
-//public DateTime TaskDueDate { get; set; }
-//public TimeSpan TaskRemainingTime;
-
-//public void UpdateRemainingTime()
-//{
-//    TaskRemainingTime = TaskDueDate - DateTime.Now;
-//}
-
-//private byte _taskPriority;
-//public int TaskPriority
-//{
-//    get { return _taskPriority; }
-//    set
-//    {
-//        if (value < minTaskPriority || value > maxTaskPriority) return;
-//        _taskPriority = (byte)value;
-//    }
-//}
-//public string TaskCategory { get; set; }
-//public Color TaskLabelColor { get; set; }
-
-//private bool _taskCompletion;
-
-//public Label TaskLabel;
-//public CheckBox TaskCheckBox;

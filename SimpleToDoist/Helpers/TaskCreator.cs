@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using static SimpleToDoist.AppConstants;
@@ -18,7 +19,13 @@ namespace SimpleToDoist.TasksCreation
         
         public void UpdateRemainingTime()
         {
-            TaskRemainingTime = TaskDueDate - DateTime.Now;
+            DateTime currentTime = DateTime.Now;
+
+            TaskRemainingTime = TaskDueDate - currentTime;
+            if(TaskRemainingTime.TotalSeconds < 0)
+            {
+                TaskRemainingTime = TimeSpan.Zero;
+            }
         }
 
         private byte _taskPriority;
@@ -118,6 +125,7 @@ namespace SimpleToDoist.TasksCreation
 
             TaskIndex = taskId;
             TaskName = newTaskName + TaskIndex.ToString();
+            TaskDueDate = DateTime.Now;
             TaskCompletion = false;
         }
 
@@ -142,7 +150,9 @@ namespace SimpleToDoist.TasksCreation
             this.TaskCompletion = other.TaskCompletion;
             
             this.TaskDueDate = other.TaskDueDate;
-
+            this.TaskPriority = other.TaskPriority;
+            this.TaskCategory = other.TaskCategory;
+            this.TaskLabelColor = other.TaskLabelColor;
 
             this.TaskLabel.Text = other.TaskLabel.Text;
             this.TaskLabelToolTip = other.TaskLabelToolTip;
@@ -178,11 +188,8 @@ namespace SimpleToDoist.TasksCreation
             {
                 UpdateRemainingTime();
 
-                string msg = TaskCategory + "\n\n" + 
-                SetToolTipText() + "\n\n" +
-                "Due to: " + TaskDueDate.ToString(@"HH\:mm") + "\n" +
-                "Time left: " + TaskRemainingTime.ToString(@"HH\:mm\:ss");
-                MessageBox.Show(msg, "Task Description");
+                string clickedTaskProperties = BuildTaskClickProperties();
+                MessageBox.Show(clickedTaskProperties, "Task Description");
             };
 
             label.MouseEnter += (s, e) =>
@@ -201,6 +208,36 @@ namespace SimpleToDoist.TasksCreation
             {
                 label.BackColor = Color.Transparent;
             };
+        }
+
+        private string BuildTaskClickProperties()
+        {
+            var builtText = new List<string>();
+
+            string taskCategory = "{Category: UNDEFINED}";
+            bool isCategoryDefined = !string.IsNullOrEmpty(TaskCategory);
+            if (isCategoryDefined)
+            {
+                taskCategory = TaskCategory.ToUpper() + "\n";
+            }
+
+            string[] textParts = {
+                taskCategory,
+                "Priority: " + TaskPriority.ToString(),
+                SetToolTipText() + "\n",
+                "Due to: " + TaskDueDate.ToString(@"HH\:mm, ddd (dd.MM.yyyy)"),
+                "Time left: " + TaskRemainingTime.ToString(@"hh\:mm\:ss") + "\n",
+            };
+
+            for(int i = 0; i < textParts.Length; i++)
+            {
+                builtText.Add(textParts[i]);
+            }
+
+            string finalText = string.Join("\n", builtText);
+            if (finalText == null) return "";
+
+            return finalText;
         }
 
         private ToolTip CreateToolTip_TaskLabel()
