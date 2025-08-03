@@ -144,6 +144,8 @@ namespace SimpleToDoist.TasksCreation
         // Task moving
         public void CopyTaskPropertiesFrom(TaskItem other)
         {
+            if (this == null || other == null) return;
+
             this.TaskName = other.TaskName;
             this.TaskTitle = other.TaskTitle;
             this.TaskDescription = other.TaskDescription;
@@ -154,9 +156,14 @@ namespace SimpleToDoist.TasksCreation
             this.TaskCategory = other.TaskCategory;
             this.TaskLabelColor = other.TaskLabelColor;
 
-            this.TaskLabel.Text = other.TaskLabel.Text;
-            this.TaskLabelToolTip = other.TaskLabelToolTip;
-            this.TaskCheckBox.Checked = other.TaskCheckBox.Checked;
+            if (this.TaskLabel != null || other.TaskLabel != null)
+            {
+                this.TaskLabel.Text = other.TaskLabel.Text;
+                this.TaskLabelToolTip = other.TaskLabelToolTip;
+            }
+
+            if (this.TaskCheckBox != null || other.TaskCheckBox != null)
+                this.TaskCheckBox.Checked = other.TaskCheckBox.Checked;
         }
 
         // Creating Task-Form Elements

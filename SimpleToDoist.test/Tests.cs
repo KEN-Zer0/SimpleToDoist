@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Windows.Forms;
 using System.Threading.Tasks;
 using Xunit;
 using static SimpleToDoist.AppConstants;
@@ -189,6 +190,100 @@ namespace SimpleToDoist.test
             
             Assert.False(taskItem.TaskCompletion);
             Assert.NotNull(taskItem);
+        }
+    }
+
+    public class ObjectDuplicationTests
+    {
+        [Fact]
+        public void Test07_Duplication1_Object1IsNull()
+        {
+            // Arrange
+            TaskItem task1 = null;
+            TaskItem task2 = new TaskItem(0);
+
+
+
+            // Act & Assert
+            Assert.Throws<NullReferenceException>(() => task1.CopyTaskPropertiesFrom(task2));
+
+            // Assert
+            Assert.Null(task1);
+            Assert.NotNull(task2);
+            
+        }
+
+        [Fact]
+        public void Test08_Duplication1_Object2IsNull()
+        {
+            // Arrange
+            TaskItem task1 = new TaskItem(0);
+            TaskItem task2 = null;
+
+            // Act
+            task1.CopyTaskPropertiesFrom(task2);
+
+            // Assert
+            Assert.NotNull(task1);
+            Assert.Null(task2);
+        }
+
+        [Fact]
+        public void Test09_Duplication1_ObjectsAreValid()
+        {
+            // Arrange
+            TaskItem task1 = new TaskItem(0);
+            TaskItem task2 = new TaskItem(11);
+
+            // Act
+            task1.CopyTaskPropertiesFrom(task2);
+
+            // Assert
+            Assert.NotNull(task1);
+            Assert.NotNull(task2);
+
+            Assert.Equal(task1.TaskName, task2.TaskName);
+            Assert.Equal(task1.TaskTitle, task2.TaskTitle);
+            Assert.Equal(task1.TaskDescription, task2.TaskDescription);
+            Assert.Equal(task1.TaskCompletion, task2.TaskCompletion);
+            Assert.Equal(task1.TaskDueDate, task2.TaskDueDate);
+            Assert.Equal(task1.TaskPriority, task2.TaskPriority);
+            Assert.Equal(task1.TaskCategory, task2.TaskCategory);
+            Assert.Equal(task1.TaskLabelColor, task2.TaskLabelColor);
+            Assert.Equal(task1.TaskLabel.Text, task2.TaskLabel.Text);
+            Assert.Equal(task1.TaskLabelToolTip, task2.TaskLabelToolTip);
+            Assert.Equal(task1.TaskCheckBox.Checked, task2.TaskCheckBox.Checked);
+
+            Assert.Equal(task1, task2);
+        }
+
+        [Fact]
+        public void Test10_Duplication1_ObjectsAreValid_PropertiesSetUp()
+        {
+            // Arrange
+            TaskItem task1 = new TaskItem(0);
+            TaskItem task2 = new TaskItem(11);
+
+            // Act
+            task1.CopyTaskPropertiesFrom(task2);
+
+            // Assert
+            Assert.NotNull(task1);
+            Assert.NotNull(task2);
+
+            Assert.Equal(task1.TaskName, task2.TaskName);
+            Assert.Equal(task1.TaskTitle, task2.TaskTitle);
+            Assert.Equal(task1.TaskDescription, task2.TaskDescription);
+            Assert.Equal(task1.TaskCompletion, task2.TaskCompletion);
+            Assert.Equal(task1.TaskDueDate, task2.TaskDueDate);
+            Assert.Equal(task1.TaskPriority, task2.TaskPriority);
+            Assert.Equal(task1.TaskCategory, task2.TaskCategory);
+            Assert.Equal(task1.TaskLabelColor, task2.TaskLabelColor);
+            Assert.Equal(task1.TaskLabel.Text, task2.TaskLabel.Text);
+            Assert.Equal(task1.TaskLabelToolTip, task2.TaskLabelToolTip);
+            Assert.Equal(task1.TaskCheckBox.Checked, task2.TaskCheckBox.Checked);
+
+            Assert.Equal(task1, task2);
         }
     }
 }
